@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elysium – Leseprobe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a6030;
+    --ink: #0a0805;
+    --paper: #111009;
+    --smoke: #1c1a14;
+    --text: #d4c9a8;
+    --text-dim: #8a7f65;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.85;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* Top bar */
+  .topbar {
+    width: 100%;
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gold-dim);
+    background: var(--ink);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .topbar-label {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    border: 1px solid var(--gold-dim);
+    padding: 4px 14px;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 100px 24px 60px;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 48px auto 0;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 28px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(64px, 12vw, 120px);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-shadow: 0 0 80px rgba(201,168,76,0.2);
+    animation: fadeUp 1s ease 0.15s both;
+  }
+
+  .hero-ornament {
+    color: var(--gold-dim);
+    font-size: 24px;
+    letter-spacing: 0.5em;
+    margin: 24px 0 20px;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    animation: fadeUp 1s ease 0.45s both;
+  }
+
+  /* Content wrapper */
+  .content {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+    animation: fadeUp 1.2s ease 0.6s both;
+  }
+
+  /* Drop cap */
+  .content p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 5.5em;
+    font-weight: 700;
+    color: var(--gold);
+    float: left;
+    line-height: 0.75;
+    margin: 8px 12px 0 0;
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+  }
+
+  .content p {
+    margin-bottom: 1.6em;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--text);
+  }
+
+  /* Chapter break ornament */
+  .ornament {
+    text-align: center;
+    color: var(--gold-dim);
+    font-size: 22px;
+    letter-spacing: 0.6em;
+    margin: 48px 0;
+    opacity: 0.7;
+  }
+
+  /* Dialogue styling */
+  .content p:has(em) {
+    color: #c4b898;
+  }
+
+  /* Horizontal rule */
+  hr {
+    border: none;
+    border-top: 1px solid var(--gold-dim);
+    margin: 64px 0;
+    opacity: 0.4;
+  }
+
+  /* Footer CTA */
+  .cta {
+    text-align: center;
+    padding: 80px 24px 100px;
+    border-top: 1px solid var(--gold-dim);
+    position: relative;
+  }
+
+  .cta::before {
+    content: '✦ ✦ ✦';
+    display: block;
+    color: var(--gold-dim);
+    letter-spacing: 1em;
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+
+  .cta-label {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 20px;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(28px, 5vw, 42px);
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+
+  .cta-text {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .cta-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+
+  /* Scroll fade lines */
+  .fade-line {
+    position: relative;
+    margin-top: -3em;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--ink));
+    pointer-events: none;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .topbar { padding: 14px 20px; }
+    .hero { padding: 70px 16px 40px; }
+    .content { padding: 60px 20px 80px; }
+    .content p:first-of-type::first-letter { font-size: 4em; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <span class="topbar-author">S. J. Vaughn</span>
+  <span class="topbar-label">Leseprobe</span>
+</nav>
+
+<header class="hero">
+  <p class="hero-label">Berlin · 1928</p>
+  <h1 class="hero-title">Elysium</h1>
+  <p class="hero-ornament">— ✦ —</p>
+  <p class="hero-subtitle">Ein Felix-Vance-Roman</p>
+</header>
+
+<main class="content">
+
+<p>Felix Vance ließ das Streichholz aufflackern. Der goldene Schimmer beleuchtete ein Puppengesicht, jung, verwegen, geschminkt mit der Routine einer, die genau wusste, wie man in dieser Stadt auffiel.</p>
+
+<p>Der Duft billigen Parfüms mischte sich mit dem beißenden Aroma von Gin und Zigarrenqualm, während die Flamme über dünn gezupfte Brauen und kirschrote Lippen tanzte. Sie war eine von denen, die den Bubikopf wie eine Krone trugen, ein Flapper-Mädchen, das zwischen Tanzfläche und Hinterzimmer ihr eigenes Spiel spielte.</p>
+
+<p>Von der Bühne klang Jazz, ein zuckender, fiebriger Rhythmus aus Saxophon und Banjo, der schwer auf den Körpern der Gäste lag. Die Luft war dunstig, heiß und zäh wie Sirup.</p>
+
+<p>In diesem Untergeschosslokal zwischen Oranienstraße und dem Moritzplatz kamen sie alle zusammen, Bankiers, die ihre Ehefrauen belogen, Tänzerinnen, die ihr Glück für Perlenketten feilboten, und zwielichtige Gestalten. Manche mit den glatten Gesichtern der Ringvereinsbrüder, andere gezeichnet von Narben, die Geschichten von nächtlichen Messerstechereien am Alex erzählten.</p>
+
+<p>Berlin war ein Haifischbecken, drei Morde die Woche, Leichen in Kanälen, in dunklen Hinterhöfen. Die Kripo sprach von Banden und Verbrechersyndikaten, aber hier unten waren sie gern gesehene Stammgäste, die Geld in die Kasse spülten.</p>
+
+<p>Felix nippte an seinem Whiskey, die Sorte, bei der man sich nicht fragte, warum sie billig war. Er mochte diesen Ort nicht, aber er wusste, dass die besten Fälle dort auf ihn warteten, wo die Fransen der Charleston-Kleider im Takt des Shimmy tanzten und Männer mit schief sitzenden Schiebermützen dem nächsten Coup nachjagten.</p>
+
+<div class="ornament">· · ·</div>
+
+<p>Der Vorhang zum Eingang, dicker Samt, wurde zur Seite gezogen. Ein kalter Schwall nasser Straßenluft drängte herein, schmeckte nach Regen, Ruß und dem fahlen Morgendunst, der bald durch die engen Hinterhöfe ziehen würde.</p>
+
+<p>Vance erkannte Dimitri, den Journalisten von Tempo, der mit seinen abgefahrenen Geschichten die Klatschblätter fütterte. Wertheim-Mantel, billige Handschuhe, aber Augen, die immer suchten. Der Ruski verschwand Richtung Séparée, dorthin, wo Gerüchte geboren und Schicksale verkauft wurden.</p>
+
+<p>„Danke, Mister", hauchte die Dame und zog an ihrer Zigarettenspitze. Der Rauch kringelte sich aufwärts, ein schimmernder Faden, der sich in die Lichtkreise der Jugendstil-Lampen verlor. Die silberne Spitze blitzte in ihrer Hand wie ein Requisit aus einem Cabaret-Stück. Ihr Akzent war amerikanisch, ihr Lächeln eine Mischung aus Einladung und Warnung, ein Flapper-Mädchen, direkt aus einem Hollywood-Film gefallen.</p>
+
+<p>Sie hielt seine Hand umklammert und blies die Streichholzflamme aus, ihr heißer Atem traf sein Gesicht. Für einen Augenblick schlug ihm der Pulsschlag Manhattans entgegen, der warme Dampf aus den Gullis der Delancey Street, das Pfeifen der Fähren am East River und das ferne Murmeln der Stadt, die nie schlief. Er blinzelte, zu lange her, zu weit weg.</p>
+
+<p>Er lächelte matt. „My pleasure." Ihre Finger steckten in samtweichen Handschuhen, die ihn an das weiche Interieur teurer Limousinen erinnerte, die draußen an der Straße warteten.</p>
+
+<p>Sie entschwand hüftschwingend seinem Blick, die Fransen ihres glitzernden Kleides fingen das Licht, ehe sie im Halbdunkel verschwand. Felix rieb sich das Kinn, die Bartstoppeln kratzten wie Sandpapier. Verflucht. Heute Nacht würde er von ihr träumen.</p>
+
+<div class="ornament">· · ·</div>
+
+<p>Die Nachtausgabe von Tempo knallte auf den Tisch – rosafarbenes Papier, typisch Ullstein. <em>Geister-Zeppelin gelandet – Die Elysium ist zurück!</em>, stand dort in reißerischen Lettern.</p>
+
+<p>Felix starrte einen Augenblick auf die Zeilen. Ein Stuhl scharrte über das Holz, und Dimitri ließ sich ungefragt nieder. Er roch nach Korn und dem säuerlichen Dunst einer durchtanzten Nacht. Seine Stimme zitterte vor Aufregung.</p>
+
+<p>„Die größte Geschichte seit … na, seitdem dieser Spinner in Amerika geflogen ist!"</p>
+
+<p>Vance verzog das Gesicht. „Na klar, wie immer." Er strich das Blatt glatt und pfiff anerkennend. Das war mal eine Überraschung, selbst für Berlin, wo Klatsch über Anita Berber oder Prinz Louis Ferdinand sonst die Spalten füllte. „Und?"</p>
+
+<p>„Das fragst du?" Dimitri stieß ein kurzes Lachen aus, verschüttete ein paar Tropfen seines Drinks auf den Tisch. „Geheimdienst, Gangster, die Extremisten ... alle stecken da mit drin." Er kippte den Korn runter, als wär's Spreewasser. „Na zdorovje!"</p>
+
+<p>Vance sog an seiner Zigarette. Die Musik wechselte zu einem schweren Tango, tief, schwermütig, als würde er ahnen, was kommen würde.</p>
+
+<p>Dimitri beugte sich vor. „Ne Riesenstory ist das. Du bekommst die Hälfte, wenn du mir hilfst bei … diesem oder jenem", flüsterte er. Das nächste Glas verschwand in seinem Rachen, aber Vance sah es, der Ruski war angespannt, und nicht so betrunken, wie er spielte.</p>
+
+<div class="ornament">· · ·</div>
+
+<p>Die Tür öffnete sich erneut. Kein Windstoß diesmal, nur Parfüm, teurer als alles, was er je besessen hatte. Pelzstola, Pariser Chic, roter Mund. Ihr Handtäschchen landete auf dem Tisch wie ein Goldbarren auf einem Misthaufen.</p>
+
+<p>Ihre Bewegungen waren die einer Katze, geschmeidig, gefährlich, mit einem Hauch von Langeweile. Sie ließ sich neben ihm nieder, das Licht fing sich in ihren Ohrringen, emaillierte Skarabäen, ganz im Stil der Ägyptomanie, die Berlin gerade erfasste. Selbst der Club verströmte diesen Zeitgeist: Mosaike in den Wänden, die an Wüstensand erinnerten, orientalische Lampen, die flackernd Schatten warfen, als würden sie uralte Geheimnisse flüstern.</p>
+
+<p>„Margaux Duvall", sagte sie lapidar, als wäre der Name Erklärung genug.</p>
+
+<p>Während Dimitri von seiner neuen Flamme schwafelte und damit die Französin meinte – „eine Frau, die Hilfe braucht" – ließ sie ihre Handschuhe auf den Schoß gleiten wie Schlangenhaut, und Felix überkam die Gewissheit, dass dies keine Nacht war, aus der er unversehrt hervorgehen würde.</p>
+
+<div class="ornament">· · ·</div>
+
+<p>„200 am Tag, plus Spesen, und bei Erfolg 5000."</p>
+
+<p>Wer wollte ihm das verübeln? Die Miete für sein Büro war überfällig, die Rechnungen stapelten sich wie ungelöste Fälle in den dunklen Ecken seiner Mietskaserne.</p>
+
+<p>Grüne Augen musterten ihn kritisch. „Also?" Ihre Stimme war samtig, tief. „Nehmen Sie den Auftrag an, Monsieur Vance?"</p>
+
+<p>Er strich sich über den Kragen. „Ich sollte es besser nicht tun."</p>
+
+<p>„Aber Sie werden."</p>
+
+<p>Er nahm einen Schluck, spürte den brennenden Alkohol bis in die Magengrube. „200 am Tag, Spesen und zehn große Scheine bei Erfolg."</p>
+
+<p>Sie zog eine Augenbraue hoch, kaum merklich, und schenkte ihm ein Lächeln, kalt und überlegen. „Abgemacht."</p>
+
+<p>Draußen, irgendwo über ihnen, hupte ein Automobil. Vielleicht eine Horch-Limousine oder nur ein Lastwagen, der Gemüse zum Markt brachte. Hier unten war es egal. Die Nacht hatte ihre eigenen Gesetze, und Vance hatte eines davon gebrochen. Er biss die Zähne zusammen. Zu billig verkauft. „Was ist der erste Schritt?"</p>
+
+<p>Dimitri schob ihm seine Zettelwirtschaft zu. „Du bist der Detektiv."</p>
+
+<p>Vance stopfte den Haufen in die Manteltasche, während der Kellner, adrett, aber mit den müden Augen eines Mannes, der zu viel sieht und nichts mehr fragt, neue Drinks brachte. Auf der Bühne wechselte die Musik erneut. Jetzt Charleston. Laut, wild, hemmungslos. Zwei Damen tanzten miteinander, eine davon in Männerkleidung. Niemand wunderte sich. Berlin war so.</p>
+
+<p>Margaux beugte sich vor. „Seien Sie vorsichtig, Felix. Die Welt ist voller böser Buben."</p>
+
+<p>War das jetzt ein Angebot? Er verwarf den Gedanken, stand auf und nahm seinen Hut. „Ich werde sehen, was ich machen kann."</p>
+
+<p>Als er den Club verließ, roch die Nacht nach Regen, nassem Pflaster und Kohlefeuer. Die Stadt lag vor ihm wie ein Versprechen, dunkel, gefährlich und voller Lügen. Und er hatte gerade dafür unterschrieben.</p>
+
+</main>
+
+<div class="fade-line"></div>
+
+<footer class="cta">
+  <p class="cta-label">Ende der Leseprobe</p>
+  <h2 class="cta-title">Elysium</h2>
+  <p class="cta-text">Berlin, 1928. Ein Detektiv, ein verschwundenes Luftschiff, eine gefährliche Frau. Felix Vance hat gerade den schlechtesten – und besten – Deal seines Lebens gemacht.</p>
+  <p class="cta-author">S. J. Vaughn</p>
+</footer>
+
+</body>
+</html>
