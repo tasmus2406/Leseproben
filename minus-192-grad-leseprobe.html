@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minus 192 Grad – Leseprobe | Stanley J. Vaughn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:     #0a0a0b;
+      --deep:      #111114;
+      --surface:   #17171c;
+      --border:    #2a2a32;
+      --smoke:     #3a3a45;
+      --muted:     #6b6b7a;
+      --ash:       #9a9aaa;
+      --silver:    #c8c8d8;
+      --cream:     #e8e4d8;
+      --ice:       #b8d4e8;
+      --ice-pale:  #d0e8f4;
+      --gold:      #c8a96e;
+      --gold-dim:  #8a7248;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--cream);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.85;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── GRAIN OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 30%, rgba(184,212,232,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,169,110,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 50% at 80% 10%, rgba(100,120,160,0.04) 0%, transparent 55%),
+        linear-gradient(180deg, #0a0a0b 0%, #0e0e12 40%, #12121a 100%);
+    }
+
+    /* Fog bands */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          transparent 0%,
+          rgba(184,212,232,0.015) 25%,
+          transparent 50%,
+          rgba(184,212,232,0.01) 75%,
+          transparent 100%);
+      animation: fogDrift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes fogDrift {
+      0%   { transform: translateY(-10px) scaleX(1.02); opacity: 0.6; }
+      100% { transform: translateY(10px)  scaleX(0.98); opacity: 1;   }
+    }
+
+    /* Temperature line decorations */
+    .temp-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,212,232,0.15), transparent);
+      animation: tempPulse 8s ease-in-out infinite;
+    }
+    .temp-line:nth-child(1) { width: 60%; top: 20%; left: 20%; animation-delay: 0s; }
+    .temp-line:nth-child(2) { width: 40%; top: 75%; left: 30%; animation-delay: 3s; }
+    .temp-line:nth-child(3) { width: 25%; top: 50%; right: 0;  animation-delay: 5s; }
+
+    @keyframes tempPulse {
+      0%, 100% { opacity: 0.2; }
+      50%       { opacity: 0.7; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.35em;
+      font-size: 0.75rem;
+      color: var(--ice);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0.7;
+    }
+
+    .title-main {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.92;
+      color: var(--cream);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .title-main span {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.58em;
+      color: var(--ice);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .title-degrees {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 14vw, 9.5rem);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(184,212,232,0.35);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      transition: -webkit-text-stroke 0.5s;
+    }
+
+    .title-degrees:hover {
+      -webkit-text-stroke: 1px rgba(184,212,232,0.8);
+    }
+
+    .author-line {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      margin-top: 32px;
+      opacity: 0.9;
+    }
+
+    .author-line::before,
+    .author-line::after {
+      content: '—';
+      margin: 0 12px;
+      opacity: 0.5;
+    }
+
+    .hero-divider {
+      margin: 44px auto 0;
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, var(--gold-dim), transparent);
+      opacity: 0.6;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      z-index: 2;
+      animation: blink 3s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 0.8; }
+    }
+
+    /* ─── CHAPTER LABEL ─── */
+    .chapter-header {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 40px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+      animation-play-state: paused;
+    }
+
+    .chapter-header.visible { animation-play-state: running; }
+
+    .chapter-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      line-height: 1;
+      color: var(--border);
+      flex-shrink: 0;
+    }
+
+    .chapter-info {
+      border-left: 1px solid var(--border);
+      padding-left: 20px;
+    }
+
+    .chapter-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+    }
+
+    .chapter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    /* ─── STORY BODY ─── */
+    .story {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 40px 100px;
+    }
+
+    .story p {
+      margin-bottom: 1.6em;
+      color: var(--silver);
+      font-size: 1.05rem;
+      text-align: justify;
+      hyphens: auto;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .story p.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .story p:first-child::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.2em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.78;
+      margin-right: 10px;
+      margin-top: 6px;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(200,169,110,0.3);
+    }
+
+    /* Message / dispatch block */
+    .dispatch {
+      margin: 2.8em 0;
+      padding: 20px 28px;
+      border-left: 2px solid var(--ice);
+      background: rgba(184,212,232,0.03);
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ash);
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .dispatch.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .dispatch .dispatch-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-style: normal;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      color: var(--ice);
+      display: block;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    .dispatch p {
+      opacity: 1 !important;
+      transform: none !important;
+      margin-bottom: 0.3em;
+      text-align: left !important;
+      font-size: 0.95rem;
+    }
+
+    /* Dialogue emphasis */
+    .story p em { color: var(--cream); font-style: italic; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 56px 40px;
+      text-align: center;
+      background: var(--deep);
+    }
+
+    .footer-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+
+    .footer-sub {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 13px 36px;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .cta-btn:hover {
+      background: rgba(200,169,110,0.1);
+      border-color: var(--gold);
+    }
+
+    .copyright {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: var(--smoke);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── SIDEBAR TEMP INDICATOR ─── */
+    .temp-indicator {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .temp-indicator.visible { opacity: 1; }
+
+    .temp-bar {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(180deg, var(--ice-pale), var(--ice), rgba(184,212,232,0.1));
+      position: relative;
+    }
+
+    .temp-bar::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--ice-pale);
+      box-shadow: 0 0 8px var(--ice);
+      top: 0;
+      animation: tempDrop 4s ease-in-out infinite;
+    }
+
+    @keyframes tempDrop {
+      0%   { top: 0;   opacity: 1; }
+      80%  { top: 75px; opacity: 0.4; }
+      100% { top: 0;   opacity: 1; }
+    }
+
+    .temp-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--ice);
+      writing-mode: vertical-rl;
+      opacity: 0.5;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .story { padding: 40px 24px 80px; }
+      .chapter-header { padding: 60px 24px 0; }
+      .temp-indicator { display: none; }
+      .author-line::before, .author-line::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TEMPERATURE SIDEBAR -->
+  <div class="temp-indicator" id="tempIndicator">
+    <div class="temp-bar"></div>
+    <div class="temp-text">−192°</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="temp-line"></div>
+      <div class="temp-line"></div>
+      <div class="temp-line"></div>
+    </div>
+    <div class="hero-content">
+      <div class="eyebrow">Leseprobe</div>
+      <h1 class="title-main">
+        <span>Minus</span>
+        <div class="title-degrees">192 Grad</div>
+      </h1>
+      <div class="author-line">Stanley J. Vaughn</div>
+      <div class="hero-divider"></div>
+    </div>
+    <div class="scroll-hint">↓ &nbsp; Lesen &nbsp; ↓</div>
+  </section>
+
+  <!-- CHAPTER HEADER -->
+  <div class="chapter-header" id="chapterHeader">
+    <div class="chapter-num">01</div>
+    <div class="chapter-info">
+      <div class="chapter-label">Kapitel</div>
+      <div class="chapter-title">Zug um Zug</div>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <article class="story" id="story">
+
+    <p>Sie brachten ihr Spiel mit wie andere ihre alten Geschichten, die immer wieder erzählt wurden. Ein Holzkasten, kantig und abgenutzt, mit eingelassenem Brett und leicht abgerundeten Figuren, verehrt wie ein Heiligtum, lag zum Duell bereit. Die Spielsteine besaßen den Charme gebrochener Helden. Die weiße Dame war gesplittert, der schwarze Springer verloren gegangen und durch ein glänzendes Ross ersetzt worden, das nicht so recht ins Ensemble passen wollte.</p>
+
+    <p>Aber das war egal. Für Kjell zählten nicht die Farben. Nicht die Form. Nur die Züge.</p>
+
+    <p>Das Literaturcafé lag südlich der Isar im Dunstkreis des Gärtnerplatzes – ein schmaler Raum mit zu vielen Büchern an den Wänden, die niemand mehr las, und einer Espressomaschine, die röchelte, als hätte sie Lungenkrebs. Es war warm, gemütlich und selten gut besucht, trotz der Mittagstunde.</p>
+
+    <p>Kjell schaute aus dem Fenster in den regenverhangenen Park. Menschen mit Schirmen hasteten vorbei, und der Regen klopfte gegen die Fensterscheiben wie ein nervöser Paketbote. Er liebte den Sommerregen, den frischen Duft, die satten Farben, am liebsten geschützt unter einem Baldachin, während ein heftiges Gewitter über ihn hinweg grollte wie ein übel gelaunter Gott.</p>
+
+    <p>Ihm gegenüber saß Jonas Leitner. Weniger göttlich.</p>
+
+    <p>Ein ehemaliger Mathematiker mit zu engem Hemd, den Blick starr auf das Brett gerichtet. Seine Finger zuckten vor. Doch zu früh gefreut – er nahm nur einen Schluck aus der Kaffeetasse. Teerschwarz, ungesüßt. Die Überreste seiner Schwarzwälder Kirschtorte dienten einer Wespenfamilie als Nahrungsquelle. Ein letztes Aufbegehren gegen Altersdiabetes und geistigem Verfall.</p>
+
+    <p>Kjell sagte nichts, spähte kurz auf die Schachuhr – noch zehn Minuten – und schloss die Augen. Im Geiste plante er die nächsten Züge und sah sich bereits auf der Gewinnerstraße.</p>
+
+    <p><em>„Du willst den Läufer auf F5 ziehen"</em>, murmelte Jonas, fast beiläufig. <em>„Oder du bluffst."</em></p>
+
+    <p>Kjell hob eine Braue. <em>„Vielleicht will ich ja gar nicht gewinnen."</em></p>
+
+    <p><em>„Dann sitzt du am falschen Tisch."</em></p>
+
+    <p>Ganz sicher sogar. Gedankenverloren fuhr er mit dem Finger die Kante des Brettes entlang. Der Splitter im Holz wirkte wie eine alte Narbe, von der man nicht einmal mehr wusste, woher sie einst kam.</p>
+
+    <p>Er dachte an Iris. An ihren Blick, wenn Zorn in ihren Augen aufflackerte. An den Klang ihrer Stimme, sobald sich die Wogen glätteten. Beides fort und doch hielt ihn etwas fest, in dieser Stadt, die nie die seine gewesen war, in einem Leben, das sich still unter seinen Schritten verabschiedete.</p>
+
+    <p><em>„Ich vermisse die Ostsee"</em>, seufzte er.</p>
+
+    <p>Jonas zuckte mit den Schultern. <em>„Ich vermisse unsere gemeinsamen Retro-Filmabende. Und mein Gedächtnis."</em></p>
+
+    <p><em>„Du hast mich immerhin beim letzten Spiel geschlagen"</em>, gab er zu.</p>
+
+    <p><em>„Dann war's Glück. Oder du hast's zugelassen."</em></p>
+
+    <p>Die Bedienung, ein adrettes junges Blondchen mit diesem überkorrekten Dutt, der mehr Disziplin als Eitelkeit verriet, kam an ihren Tisch. Ihr Lippenstift war verwischt und nur nachlässig nachgezogen. Keine Zeit. Oder sie war liederlich. Am wahrscheinlichsten: Sie küsste den Konditor leidenschaftlicher, als dieser buk – das würde zumindest den muffigen Geschmack der Torte erklären.</p>
+
+    <p><em>„Darf es noch etwas sein, die Herren?"</em>, flötete sie bestens gelaunt wie immer.</p>
+
+    <p>Sie verneinten, und sie räumte das Geschirr ab. Kjell ließ es sich nicht nehmen, ihr hinterherzusehen. Sportliche Figur. Vermutlich joggte sie.</p>
+
+    <p>Jonas zog endlich den Springer, nicht den Läufer wie erwartet, und lächelte danach schief. Es war das Grinsen eines Mannes, der wusste, dass Verlieren auch nur eine mathematische Gleichung ist – die hohe Kunst, als Nullsumme wie ein Gewinner zu wirken.</p>
+
+    <p>Dann vibrierte Kjells Handy. Er ignorierte es.</p>
+
+    <p><em>„Dienst?"</em></p>
+
+    <p><em>„Möglich"</em>, brummte er. Er hasste es, wenn man ihn in der Mittagspause belästigte. Er zog die Dame mit der Sicherheit eines Großmeisters und die Gesichtszüge seines Gegenübers entglitten nach wenigen Sekunden. <em>„Scheiße im Quadrat"</em>, sagte Jonas trocken. <em>„Dabei hat die Schottische Eröffnung eine Erfolgsquote von 52 Prozent. Es sei denn, du sitzt am Tisch."</em></p>
+
+    <p>Kjell genoss den Moment und blickte nebenbei auf das Handy. Eine Nachricht von Naemi. Kurz, klar, wie immer. Kein „Hallo" – nur Daten.</p>
+
+    <div class="dispatch" id="dispatch">
+      <span class="dispatch-label">Eingehende Nachricht — Naemi T.</span>
+      <p>Fund. Stillgelegte Kryo-Anlage. Koordinaten folgen.</p>
+      <p>Subjekt in Tank, Zustand unbekannt.</p>
+      <p>Bayerischer Wald, Sektor 12-Delta.</p>
+      <p>Ich bin in 15 Minuten da.</p>
+      <p>Anlageplan, Luftaufnahmen anbei.</p>
+      <p>Übliches Begleitmaterial kommt gleich im Anhang.</p>
+    </div>
+
+    <p>Das bedeutete bei ihr: Karte im Originalmaßstab, Wärmebilder der letzten 48 Stunden, Daten zur Stromversorgung und ein historischer Grundbuchauszug – falls es wichtig werden sollte. Kjell scrollte nicht einmal.</p>
+
+    <p>Er legte das Smartphone auf den Tisch. Die Figuren ruckelten durch die Vibration, während seine Kollegin die Anhänge schickte wie ein Lochkartenstanzer im Akkord.</p>
+
+    <p><em>„Ein Fall?"</em>, fragte Jonas.</p>
+
+    <p><em>„Eher ein Fehler."</em> Von Kriminaloberkommissarin Naemi Takanashi, ergänzte er im Geiste. Berufliche Ruhestörung made in Japan.</p>
+
+    <p>Er sah aus dem Fenster. Der Regen hatte zugenommen. Die Straße war verwaist. Die Scheiben verzogen das Licht zu milchigem Grau.</p>
+
+    <p>Er trank den Rest seines Radlers.</p>
+
+    <p><em>„Aber wenn etwas piepst"</em>, sagte er, <em>„hört es selten von selbst auf."</em></p>
+
+    <p>Es dauerte nicht lange. Kjell hatte bezahlt und nahm noch das Kuchenpaket entgegen, sorgsam eingewickelt wie ein Geburtstagsgeschenk, als der Wagen vorfuhr. Schwarzer Hybrid. Fast lautlos. Nur das Hupen und das gleichzeitige Vibrieren des Handys ließen erahnen, dass sie nicht durch den Regen spazieren würde, um ihn persönlich abzuholen.</p>
+
+    <p>Er bedankte sich bei der Bedienung, während Jonas frech grinste. <em>„Deine Mama?"</em></p>
+
+    <p><em>„Die ist im Pflegeheim, schon vergessen?"</em></p>
+
+    <p><em>„Ach verdammt ... tut mir leid, wirklich."</em> Er knackte jeden Finger einzeln durch und wippte dabei vor und zurück.</p>
+
+    <p>Ein letzter Blick auf das Brett. <em>„Merk dir die Stellung oder besser ... notiere sie."</em> Kjell blickte nicht auf, als es erneut hupte. Immer mit der Ruhe, Fräulein.</p>
+
+    <p><em>„Früher musste ich nichts aufschreiben."</em> Er tippte sich an die Stirn. <em>„Mein Algorithmus hat Schaden genommen."</em></p>
+
+    <p>Kjell nickte nur. In seiner Jugend galt er als Genie, bis er zu lange über das Halteproblem nachdachte und etwas in ihm hängen blieb. Seitdem legte er exzentrische Züge an den Tag, die ihn an den Rand des Wahnsinns brachten. Zwanghaftes Verhalten nannten es die Mediziner.</p>
+
+    <p><em>„Bis morgen, Jonas."</em></p>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-title">Minus 192 Grad</div>
+    <div class="footer-sub">Stanley J. Vaughn &nbsp;·&nbsp; Leseprobe Ende</div>
+    <a href="#" class="cta-btn">Zum vollständigen Roman</a>
+    <p class="copyright">© Stanley J. Vaughn · Alle Rechte vorbehalten</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.story p, .dispatch, .chapter-header').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Temperature indicator appears after scrolling
+    const tempObs = new IntersectionObserver((entries) => {
+      const indicator = document.getElementById('tempIndicator');
+      entries.forEach(e => {
+        indicator.classList.toggle('visible', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+
+    tempObs.observe(document.querySelector('.hero'));
+
+    // Stagger story paragraphs slightly
+    const storyPs = document.querySelectorAll('.story p');
+    storyPs.forEach((p, i) => {
+      p.style.transitionDelay = `${Math.min(i * 0.04, 0.3)}s`;
+    });
+  </script>
+</body>
+</html>
