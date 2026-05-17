@@ -9,3 +9,4 @@ Leseproben von Stanley J. Vaughn
 - [Doppeltes Spiel](doppeltes-spiel-leseprobe-v2.html)
 - [Hierophant](hierophant-leseprobe.html)
 - [Minus 192 Grad](minus-192-grad-leseprobe.html)
+- [Gästebuch](gaestebuch.html)
