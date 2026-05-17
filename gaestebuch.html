@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Gästebuch – Stanley J. Vaughn</title>
+    <style>
+        body { font-family: Georgia, serif; max-width: 600px; margin: 60px auto; padding: 0 20px; background: #fafafa; color: #333; }
+        h1 { font-size: 2em; margin-bottom: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 4px; font-family: Georgia, serif; font-size: 1em; box-sizing: border-box; }
+        textarea { height: 150px; }
+        button { background: #333; color: white; padding: 12px 30px; border: none; border-radius: 4px; font-size: 1em; cursor: pointer; }
+        button:hover { background: #555; }
+        a { color: #333; }
+        .back { display: inline-block; margin-bottom: 30px; font-size: 0.9em; }
+    </style>
 </head>
 <body>
+    <a class="back" href="index.html">← Zurück zur Übersicht</a>
     <h1>Gästebuch</h1>
-    <p>Hinterlasse einen Eintrag!</p>
+    <p>Hinterlasse einen Eintrag – ich freue mich über jede Nachricht!</p>
 
-    <script src="https://giscus.app/client.js"
-        data-repo="tasmus2406/Leseproben"
-        data-repo-id="R_kgDOSfTvDA"
-        data-category="General"
-        data-category-id="DIC_kwDOSfTvDM4C9Pxr"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="de"
-        crossorigin="anonymous"
-        async>
-    </script>
+    <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="e2921b97-5ff9-410e-a4e4-fb523340957b">
+        <input type="hidden" name="subject" value="Neuer Gästebucheintrag">
+        <input type="hidden" name="redirect" value="https://tasmus2406.github.io/Leseproben/danke.html">
+        <label>Dein Name</label>
+        <input type="text" name="name" required placeholder="Dein Name">
+        <label>Deine E-Mail</label>
+        <input type="email" name="email" required placeholder="deine@email.de">
+        <label>Dein Eintrag</label>
+        <textarea name="message" required placeholder="Was möchtest du mir mitteilen?"></textarea>
+        <button type="submit">Eintrag absenden</button>
+    </form>
 </body>
 </html>
