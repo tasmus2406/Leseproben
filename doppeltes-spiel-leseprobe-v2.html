@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doppeltes Spiel – Leseprobe | Stanley J. Vaughn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:       #06060a;
+      --deep:       #09090f;
+      --night:      #0d0d16;
+      --shadow:     #1a1a2e;
+      --stone:      #252538;
+      --slate:      #383854;
+      --mist:       #5a5a7a;
+      --silver:     #8888aa;
+      --pale:       #b8b8cc;
+      --frost:      #d4d4e8;
+      --moonlight:  #eeeef8;
+      --moon:       #f4f2ff;
+      --rune:       #7070cc;
+      --rune-glow:  rgba(112,112,204,0.15);
+      --rune-bright:rgba(160,160,255,0.5);
+      --gold-old:   #a08040;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--frost);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.9;
+      overflow-x: hidden;
+    }
+
+    /* ─── STARS ─── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--dur, 4s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: var(--min, 0.1); }
+      50%      { opacity: var(--max, 0.5); }
+    }
+
+    /* ─── MOON ─── */
+    .moon {
+      position: fixed;
+      top: 60px;
+      right: 80px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f8f4ff, #d0ccee 50%, #a8a4cc);
+      box-shadow:
+        0 0 40px rgba(200,196,255,0.22),
+        0 0 90px rgba(180,176,240,0.1),
+        0 0 160px rgba(160,156,220,0.05);
+      z-index: 1;
+      animation: moonGlow 9s ease-in-out infinite;
+    }
+
+    .moon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 62% 38%, rgba(20,10,40,0.45) 30%, transparent 70%);
+    }
+
+    @keyframes moonGlow {
+      0%,100% { box-shadow: 0 0 40px rgba(200,196,255,0.22), 0 0 90px rgba(180,176,240,0.1); }
+      50%      { box-shadow: 0 0 60px rgba(200,196,255,0.32), 0 0 130px rgba(180,176,240,0.16); }
+    }
+
+    /* ─── MIST ─── */
+    .mist-layer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(ellipse 120% 100% at 50% 100%,
+        rgba(80,80,150,0.07) 0%, transparent 70%);
+      animation: mistDrift 20s ease-in-out infinite;
+    }
+
+    @keyframes mistDrift {
+      0%,100% { transform: translateX(-2%); opacity: 0.8; }
+      50%      { transform: translateX(2%);  opacity: 1; }
+    }
+
+    /* ─── RUNE STRIP ─── */
+    .rune-strip {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 18px 0 0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      color: var(--rune);
+      opacity: 0.25;
+      user-select: none;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 48px 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(112,112,180,0.06) 0%, transparent 65%);
+      animation: poolPulse 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes poolPulse {
+      0%,100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50%      { opacity: 1;   transform: translateX(-50%) scale(1.06); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: veilLift 1.8s cubic-bezier(0.22,1,0.36,1) 0.4s forwards;
+    }
+
+    @keyframes veilLift {
+      from { opacity: 0; transform: translateY(20px); filter: blur(3px); }
+      to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.55em;
+      color: var(--rune);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      opacity: 0.6;
+    }
+
+    .title-main {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      line-height: 1.02;
+      letter-spacing: 0.06em;
+      color: var(--moon);
+      text-shadow: 0 0 50px rgba(200,196,255,0.25), 0 0 100px rgba(160,156,220,0.1);
+    }
+
+    .title-sub {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+      letter-spacing: 0.45em;
+      color: var(--slate);
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 32px auto;
+      color: var(--rune);
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      opacity: 0.45;
+      max-width: 260px;
+    }
+
+    .ornament::before, .ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rune);
+      opacity: 0.4;
+    }
+
+    .author-line {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--silver);
+      letter-spacing: 0.15em;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 36px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.5em;
+      color: var(--slate);
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%,100% { opacity: 0.3; }
+      50%      { opacity: 0.8; }
+    }
+
+    /* ─── CHAPTER ─── */
+    .chapter-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 72px 60px 0;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .chapter-wrap.visible { opacity: 1; transform: translateY(0); }
+
+    .chapter-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.5em;
+      color: var(--rune);
+      opacity: 0.55;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .chapter-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--moonlight);
+      letter-spacing: 0.08em;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--shadow);
+    }
+
+    /* ─── STORY ─── */
+    .story {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 52px 60px 100px;
+    }
+
+    .story p {
+      margin-bottom: 1.55em;
+      font-weight: 300;
+      color: var(--pale);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .story p.visible { opacity: 1; transform: translateY(0); }
+
+    /* Drop cap */
+    .story p:first-child::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 4.2em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.78;
+      margin-right: 10px;
+      margin-top: 6px;
+      color: var(--rune);
+      text-shadow: 0 0 30px var(--rune-glow);
+    }
+
+    /* Dialogue — inline, just italic and slightly lighter */
+    .story p em {
+      color: var(--moonlight);
+      font-style: italic;
+    }
+
+    /* Wappen block */
+    .wappen-block {
+      margin: 2.5em 0;
+      padding: 20px 28px;
+      border: 1px solid var(--shadow);
+      background: rgba(10,10,20,0.5);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .wappen-block.visible { opacity: 1; transform: translateY(0); }
+
+    .wappen-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.54rem;
+      letter-spacing: 0.45em;
+      color: var(--rune);
+      opacity: 0.55;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wappen-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--shadow);
+    }
+
+    .wappen-item {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.92rem;
+      color: var(--silver);
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(30,30,50,0.5);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wappen-item:last-child { border-bottom: none; }
+
+    .wappen-item::before {
+      content: '⚜';
+      color: var(--gold-old);
+      font-size: 0.7em;
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+
+    /* ─── CLOSING ─── */
+    .closing {
+      text-align: center;
+      margin: 3em 0 1em;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .closing.visible { opacity: 1; }
+
+    .closing-rune {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--rune);
+      opacity: 0.4;
+      display: block;
+      animation: runeFlicker 7s ease-in-out infinite;
+    }
+
+    @keyframes runeFlicker {
+      0%,100% { opacity: 0.35; text-shadow: none; }
+      50%      { opacity: 0.65; text-shadow: 0 0 20px var(--rune-bright); }
+    }
+
+    .closing-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--slate);
+      letter-spacing: 0.1em;
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--shadow);
+      background: var(--deep);
+      padding: 60px;
+      text-align: center;
+    }
+
+    .f-rune {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.6em;
+      color: var(--rune);
+      opacity: 0.3;
+      margin-bottom: 20px;
+    }
+
+    .f-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: var(--moonlight);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .f-author {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--silver);
+      margin-bottom: 32px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 36px;
+      border: 1px solid var(--slate);
+      color: var(--pale);
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+
+    .cta-btn:hover {
+      border-color: var(--rune);
+      background: var(--rune-glow);
+      box-shadow: 0 0 20px rgba(112,112,204,0.1);
+    }
+
+    .copyright {
+      margin-top: 28px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.48rem;
+      letter-spacing: 0.3em;
+      color: var(--stone);
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 80px 28px 60px; }
+      .story, .chapter-wrap { padding-left: 28px; padding-right: 28px; }
+      footer { padding: 40px 28px; }
+      .moon { width: 55px; height: 55px; top: 24px; right: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+  <div class="moon"></div>
+  <div class="mist-layer"></div>
+
+  <div class="rune-strip">ᚠ · ᚢ · ᚦ · ᚨ · ᚱ · ᚲ · ᚷ · ᚹ · ᚺ · ᚾ · ᛁ · ᛃ · ᛇ · ᛈ · ᛉ · ᛊ · ᛏ · ᛒ · ᛖ · ᛗ · ᛚ · ᛜ · ᛞ · ᛟ</div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Leseprobe · Stanley J. Vaughn</div>
+      <h1 class="title-main">Doppeltes<br>Spiel</h1>
+      <div class="title-sub">Ein Kaiserreich im Schatten</div>
+      <div class="ornament">᛭</div>
+      <div class="author-line">Stanley J. Vaughn</div>
+    </div>
+    <div class="scroll-cue">· Weiter lesen ·</div>
+  </section>
+
+  <!-- CHAPTER -->
+  <div class="chapter-wrap" id="chapterWrap">
+    <div class="chapter-label">Szene · Telfogger Wald</div>
+    <h2 class="chapter-title">Die Drudenritter</h2>
+  </div>
+
+  <!-- STORY -->
+  <article class="story" id="story">
+
+    <p>Byron schlug den Mantelkragen hoch, als er vor die Tür der Schenke trat. Mit einer Fackel gab er das verabredete Zeichen und spähte in die Dunkelheit.</p>
+
+    <p>Die Mühle mit ihrem grauen Gemäuer ragte im Mondlicht wie ein finsterer Wachturm auf, und das monotone Quietschen des Schaufelrades, das den Tag über erklang, war nun verstummt. Die Kornspeicher lagen verlassen wie die Lastenkähne des Mühlenflusses. Selbst im Stall regte sich nichts, kein Wiehern, kein Scharren – nur Stille. So wie es sein sollte. Einzig aus dem Telfogger Wald kroch eisiger Nebel, begleitet vom Flüstern der Blätter – die Bühne für seine schändliche Tat.</p>
+
+    <p>Er hielt absichtlich sein Gesicht in den schneidenden Wind, der den Geruch von Schnee trug. Bald würde er die Wipfel bedecken und das Land unter einem weißen Tuch begraben.</p>
+
+    <p>Schatten regten sich im Dunst. Schwarz gewandete Reiter trabten über die steinerne Brücke, das Klacken der beschlagenen Hufe hallte gespenstisch durch den Nebel, wie das Schlagen eines Totenhammers – geschmiedet in den Essen der alten Götter.</p>
+
+    <p>Byron spuckte aus, verdammte Glaubensfanatiker. Den Anführer der sechs schwer bewaffneten Drudenritter kannte er, dennoch stellten sich ihm die Nackenhaare auf.</p>
+
+    <p>Ketana, Fürstin vom See, hinter diesem unscheinbaren Namen versteckte sich eine machtbesessene Sadistin, die sich den schwarzen Künsten verschrieben hatte und vor nichts zurückschreckte. Unter ihrem Drudenbanner versammelte sie fast eintausend Ritter, treu ergeben bis zum Tod. Genau der Schlag Mensch, den man brauchte, um die Kaiserkrone mit Gewalt an sich zu reißen. Aus dem Augenwinkel erkannte Byron eine Schar Nachtvögel, die sich lautlos in die Bäume setzten – Augen und Ohren Ketanas.</p>
+
+    <p>Rücksichtslos riss sie die Zügel zurück, ihr Pferd schnaubte und kam vor ihm zum Stehen. <em>„Lord Shetter, ich dachte, die Würmer hätten Euren vermoderten Leib längst gefressen."</em></p>
+
+    <p>Ihre schneidende Stimme war wie immer unangenehm. Trotz der edlen und schweren Brigantine schwang sie sich elegant von ihrem Ross, nahm den Nasenhelm ab und lächelte kalt. Ihr blutleeres Puppengesicht stand im harten Gegensatz zu den lackschwarzen Haaren, die sie offen trug – eine stumme Verachtung aller Sitten. Auf ihre Art strahlte die Frau einen gewissen Reiz aus, doch die Frage blieb, warum sie hier persönlich aufkreuzte.</p>
+
+    <p><em>„Freut mich auch, dich zu sehen, Ketana."</em> Er deutete absichtlich nur eine leichte Verbeugung an. Dennoch war er nicht töricht, eine unbedachte Äußerung und er wäre endgültig Geschichte.</p>
+
+    <p>Die Drudenritter, eingehüllt in schwere Pelzmäntel, saßen lässig auf Streitrössern, doch ihr Gleichmut täuschte. Er sah die wachen Augen, die jede Bewegung registrierten, die Hände, die nicht zufällig auf den Waffen lagen. Die Armbrust des Vylorer lag auf seinem Schoß – und der Bolzen steckte in Byrons Brust, noch bevor seine Hand überhaupt den Schwertknauf erreichte.</p>
+
+    <p>Während Ketana ihre Lederhandschuhe auszog, sagte sie: <em>„Ihr lasst es wie immer an Respekt mangeln, mein Lieber."</em> Mit der flachen Hand gab sie ihm spielerisch eine Ohrfeige, eine Geste, die ihn bewusst herabsetzte. <em>„Wie geht es Prinz Almond? Ich nehme an, er ahnt nichts? Ich hörte, Ihr sorgt Euch auffällig um ihn, unterrichtet ihn sogar im Schwertkampf."</em> Sie musterte ihn mit kühlem Blick. <em>„Lächerlich, Ihr glaubt doch nicht wirklich, dass aus dem Bengel ein Ritter wird? Hoffentlich schätzt Ihr den Wert Eures Lebens richtig ein."</em></p>
+
+    <p>Nur mit Mühe unterdrückte Byron einen Fluch. Das elende Weibsstück schien überall ihre Spitzel zu haben. Laut sagte er: <em>„Wenn ich mich recht erinnere, war genau das meine Aufgabe. Und ja, er beabsichtigt morgen in aller Herrgottsfrühe seine Ländereien zu besichtigen."</em></p>
+
+    <p><em>„Erfreulich ... dann lasst uns die Einzelheiten klären."</em></p>
+
+    <p>Er trat zur Seite. <em>„Nach Euch"</em>, brachte er zähneknirschend hervor.</p>
+
+    <p>Erst jetzt stiegen die Männer ab und folgten ihr in den Schankraum. Ritter Engelmahr bedachte ihn mit einem mitleidigen Blick, seine berüchtigte Streitaxt trug er locker in der Hand. <em>„Ein gut gewählter Treffpunkt, einer Ratte würdig"</em>, brummte er.</p>
+
+    <p>Ihm folgte Junker Gabriel, ein fanatischer Drude, der am liebsten jeden mit dem Feuer läutern würde. <em>„Demut ziert das ärmste Haus, Engelmahr. Soll ich Euch das Gleichnis von dem Bettler und —"</em></p>
+
+    <p><em>„Halt die Schnauze und geh rein, verdammte Axt!"</em></p>
+
+    <p>Byron hielt sich zurück und blähte die Nasenflügel. Fanatische Raubhunde, mit Bedacht von Ketana gewählt.</p>
+
+    <div class="wappen-block" id="wappen">
+      <div class="wappen-label">Die Wappen der Ritter</div>
+      <div class="wappen-item">Den Nachtmahr von Herzog Olan</div>
+      <div class="wappen-item">Den Urbaum der Familie Winter</div>
+      <div class="wappen-item">Den Hengst Ser Ustofs, Kurfürst von Ugra</div>
+      <div class="wappen-item">Das Henkersbeil der Baronin Lydwiga</div>
+    </div>
+
+    <p>Der dunkelhäutige Vylorer hob seine Armbrust. <em>„Die Kälte ist eine angenehmere Gesellschaft"</em>, murmelte er und lehnte sich an die Tür. <em>„Sie stellt keine Fragen."</em> Er grinste und zeigte eine Reihe weißer Zähne.</p>
+
+    <p>Das Spiel um die Thronfolge war bereits in vollem Gange, aber Byron hielt noch einen Trumpf in der Hand, von dem niemand wusste.</p>
+
+    <div class="closing" id="closing">
+      <span class="closing-rune">ᛉ</span>
+      <span class="closing-text">Das Spiel hat begonnen.</span>
+    </div>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-rune">ᚠ · ᛁ · ᚾ · ᛁ · ᛊ</div>
+    <div class="f-title">Doppeltes Spiel</div>
+    <div class="f-author">Stanley J. Vaughn · Leseprobe Ende</div>
+    <a href="#" class="cta-btn">Zum vollständigen Roman</a>
+    <div class="copyright">© Stanley J. Vaughn · Alle Rechte vorbehalten</div>
+  </footer>
+
+  <script>
+    // Stars
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 110; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2 + 0.5;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        top:${Math.random() * 72}%;
+        left:${Math.random() * 100}%;
+        --dur:${3 + Math.random() * 6}s;
+        --delay:${Math.random() * 8}s;
+        --min:${0.05 + Math.random() * 0.12};
+        --max:${0.35 + Math.random() * 0.45};
+      `;
+      starsEl.appendChild(s);
+    }
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.story p, .wappen-block, .closing, .chapter-wrap')
+      .forEach(el => io.observe(el));
+
+    document.querySelectorAll('.story p').forEach((p, i) => {
+      p.style.transitionDelay = `${Math.min(i * 0.03, 0.22)}s`;
+    });
+  </script>
+</body>
+</html>

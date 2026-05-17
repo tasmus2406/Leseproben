@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ausgelocht – Leseprobe | Stanley J. Vaughn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Teko:wght@300;400;500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --earth:    #0c0e08;
+      --turf:     #10140c;
+      --rough:    #161a10;
+      --fairway:  #1c2216;
+      --hedge:    #252d1c;
+      --moss:     #334028;
+      --sage:     #4a5a38;
+      --fog:      #6b7a58;
+      --pale:     #9aaa84;
+      --dew:      #c4d4a8;
+      --morning:  #e8f0d4;
+      --sun-sick: #d4c890;
+      --sun-pale: #e8dfa8;
+      --blood:    #8b1a1a;
+      --blood-dim:#5a1010;
+      --rust:     #c4642a;
+      --hole:     #000000;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--earth);
+      color: var(--morning);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.85;
+      overflow-x: hidden;
+    }
+
+    /* ─── MIST OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 40% at 50% 0%,  rgba(196,212,168,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 60%  60% at 0%   60%, rgba(100,120,80,0.03)  0%, transparent 60%),
+        radial-gradient(ellipse 40%  30% at 100% 40%, rgba(180,160,80,0.02)  0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1000;
+      animation: mistDrift 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes mistDrift {
+      0%   { opacity: 0.6; transform: translateX(-8px); }
+      100% { opacity: 1;   transform: translateX(8px);  }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    /* Fairway perspective bands */
+    .fairway-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          #0c0e08 0%,
+          #0e1209 15%,
+          #111508 30%,
+          #141a0c 45%,
+          #111208 60%,
+          #0e0e08 75%,
+          #0a0a06 100%
+        );
+    }
+
+    /* Alternating turf stripes */
+    .fairway-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 38px,
+        rgba(196,212,168,0.012) 38px,
+        rgba(196,212,168,0.012) 76px
+      );
+      transform: perspective(800px) rotateX(55deg) translateY(-30%);
+      transform-origin: bottom center;
+    }
+
+    /* Morning haze horizon */
+    .fairway-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 45%;
+      background: linear-gradient(180deg,
+        rgba(212,200,144,0.06) 0%,
+        rgba(180,170,110,0.03) 40%,
+        transparent 100%
+      );
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px 40px;
+      max-width: 900px;
+    }
+
+    .eyebrow {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      letter-spacing: 0.5em;
+      color: var(--fog);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: riseIn 0.8s ease 0.3s forwards;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .title-wrap {
+      opacity: 0;
+      animation: riseIn 1s cubic-bezier(0.22,1,0.36,1) 0.6s forwards;
+    }
+
+    .title-main {
+      font-family: 'Teko', sans-serif;
+      font-weight: 600;
+      font-size: clamp(5rem, 16vw, 11rem);
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--morning);
+      position: relative;
+      display: inline-block;
+    }
+
+    /* The "O" as golf hole */
+    .title-main .hole-o {
+      position: relative;
+      display: inline-block;
+      color: var(--morning);
+    }
+
+    .title-main .hole-o::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42%;
+      height: 42%;
+      border-radius: 50%;
+      background: var(--hole);
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.9), 0 0 0 1px rgba(100,120,80,0.15);
+    }
+
+    .title-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--sun-sick);
+      margin-top: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .author-block {
+      margin-top: 44px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      animation: riseIn 0.8s ease 1.1s forwards;
+    }
+
+    .author-name {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      letter-spacing: 0.4em;
+      color: var(--pale);
+      text-transform: uppercase;
+    }
+
+    .author-sep {
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--moss), transparent);
+    }
+
+    /* Score card strip */
+    .scorecard {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--hedge);
+      padding: 16px 60px;
+      display: flex;
+      gap: 40px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      color: var(--moss);
+      letter-spacing: 0.12em;
+      opacity: 0;
+      animation: riseIn 0.6s ease 1.4s forwards;
+    }
+
+    .scorecard span { color: var(--sage); }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 20px;
+      right: 60px;
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--moss);
+      text-transform: uppercase;
+      animation: fadeHint 3s ease-in-out infinite;
+    }
+
+    @keyframes fadeHint {
+      0%,100% { opacity: 0.3; }
+      50%      { opacity: 0.8; }
+    }
+
+    /* ─── CHAPTER HEADER ─── */
+    .chapter-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 72px 60px 0;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .chapter-wrap.visible { opacity: 1; transform: translateY(0); }
+
+    .hole-number {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      color: var(--sage);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .chapter-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--sun-pale);
+      line-height: 1.1;
+      border-bottom: 1px solid var(--hedge);
+      padding-bottom: 24px;
+    }
+
+    /* tee mark */
+    .chapter-title::before {
+      content: '⊙';
+      font-style: normal;
+      font-size: 0.5em;
+      vertical-align: middle;
+      margin-right: 16px;
+      color: var(--blood);
+      opacity: 0.7;
+    }
+
+    /* ─── STORY ─── */
+    .story {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 52px 60px 100px;
+    }
+
+    .story p {
+      margin-bottom: 1.5em;
+      color: var(--dew);
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .story p.visible { opacity: 1; transform: translateY(0); }
+
+    /* Drop cap */
+    .story p:first-child::first-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.4em;
+      font-weight: 600;
+      float: left;
+      line-height: 0.75;
+      margin-right: 8px;
+      margin-top: 8px;
+      color: var(--sun-sick);
+    }
+
+    /* Sound-effect lines */
+    .story p.sfx {
+      font-family: 'Teko', sans-serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: 0.05em;
+      color: var(--morning);
+      margin: 1.2em 0 0.6em;
+    }
+
+    .story p.sfx em {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.38em;
+      font-weight: 300;
+      font-style: italic;
+      display: block;
+      color: var(--fog);
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* Score notation — short punchy lines */
+    .story p.notation {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      color: var(--pale);
+      letter-spacing: 0.05em;
+      border-left: 2px solid var(--moss);
+      padding-left: 18px;
+      margin: 1.8em 0;
+      line-height: 1.6;
+    }
+
+    /* Dialogue */
+    .story p em { font-style: italic; color: var(--morning); }
+
+    /* ─── DEATH MOMENT ─── */
+    .fade-block {
+      margin: 3em 0;
+      padding: 0;
+      position: relative;
+      opacity: 0;
+      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(10px);
+    }
+
+    .fade-block.visible { opacity: 1; transform: translateY(0); }
+
+    .fade-block p {
+      opacity: 1 !important;
+      transform: none !important;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--fog);
+      margin-bottom: 0.6em;
+      transition: color 0.3s;
+    }
+
+    /* Each line gets progressively dimmer */
+    .fade-block p:nth-child(1) { color: var(--dew);    font-size: 1.05rem; }
+    .fade-block p:nth-child(2) { color: var(--pale);   font-size: 1.0rem;  }
+    .fade-block p:nth-child(3) { color: var(--fog);    font-size: 0.95rem; }
+    .fade-block p:nth-child(4) { color: var(--sage);   font-size: 0.9rem;  letter-spacing: 0.1em; }
+    .fade-block p:nth-child(5) { color: var(--moss);   font-size: 0.82rem; letter-spacing: 0.18em; }
+    .fade-block p:nth-child(6) { color: var(--hedge);  font-size: 0.72rem; letter-spacing: 0.3em;  }
+
+    /* ─── PLOP ─── */
+    .plop {
+      text-align: center;
+      margin: 2.5em 0;
+      opacity: 0;
+      transform: scale(1.2);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .plop.visible { opacity: 1; transform: scale(1); }
+
+    .plop-word {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 3.5rem;
+      letter-spacing: 0.6em;
+      color: var(--blood);
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .plop-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--blood-dim);
+      margin: 16px auto 0;
+    }
+
+    /* ─── FINAL SILENCE ─── */
+    .silence {
+      margin: 3em 0 1em;
+      text-align: center;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.5em;
+      color: var(--hedge);
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .silence.visible { opacity: 1; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--hedge);
+      background: var(--turf);
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 40px;
+    }
+
+    .f-label {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: var(--sage);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .f-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--morning);
+    }
+
+    .f-author {
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: var(--fog);
+      margin-top: 6px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 32px;
+      border: 1px solid var(--moss);
+      color: var(--pale);
+      font-family: 'Teko', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .cta-btn:hover {
+      background: rgba(196,212,168,0.05);
+      border-color: var(--pale);
+    }
+
+    .copyright {
+      margin-top: 10px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.55rem;
+      color: var(--hedge);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .hero-inner, .story, .chapter-wrap { padding-left: 28px; padding-right: 28px; }
+      .scorecard { padding: 12px 28px; gap: 20px; flex-wrap: wrap; }
+      footer { grid-template-columns: 1fr; padding: 40px 28px; }
+      .scroll-cue { right: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="fairway-bg"></div>
+
+    <div class="hero-inner">
+      <div class="eyebrow">Leseprobe &nbsp;·&nbsp; Stanley J. Vaughn</div>
+      <div class="title-wrap">
+        <h1 class="title-main">
+          AUSG<span class="hole-o">E</span>LOCHT
+        </h1>
+        <div class="title-sub">Ein Mord auf dem Fairway</div>
+      </div>
+      <div class="author-block">
+        <div class="author-sep"></div>
+        <div class="author-name">Stanley J. Vaughn</div>
+      </div>
+    </div>
+
+    <div class="scorecard">
+      <div>LOCH <span>01</span></div>
+      <div>PAR <span>—</span></div>
+      <div>HANDICAP <span>∞</span></div>
+      <div>DACHAUER MOOS <span>/ MORGEN</span></div>
+    </div>
+    <div class="scroll-cue">Abschlag ↓</div>
+  </section>
+
+  <!-- CHAPTER -->
+  <div class="chapter-wrap" id="chapterWrap">
+    <div class="hole-number">Prolog · Loch 01</div>
+    <h2 class="chapter-title">Tschup – Klong – weg</h2>
+  </div>
+
+  <!-- STORY -->
+  <article class="story" id="story">
+
+    <p class="sfx">Tschup – Klong – weg<em>drei silben. ein abgang.</em></p>
+
+    <p>Aris sah dem Ball hinterher, wie er als aggressiver Punkt direkt in die fahle Sonnenscheibe flog, die sich müde über das Dachauer Moos schob.</p>
+
+    <p class="notation">280 Yards. Mitte Fairway.<br>Kein Applaus. Keine Zuschauer.</p>
+
+    <p>Nur sein Spielpartner, der die Augenbrauen hob, als hätte ihm gerade ein Hund auf seinen Schuh geschissen.</p>
+
+    <p><em>„Zufallstreffer"</em>, sagte das Arschloch.</p>
+
+    <p>Aris erwiderte nichts. Er bückte sich, klaubte das Tee vom Boden auf und steckte es in die Hosentasche. Die Genugtuung lag wie ein erlesener Wein auf der Zunge.</p>
+
+    <p>Erst da bemerkte er es.</p>
+
+    <p>Etwas hatte ihn gestochen. Links, in die weiche Haut zwischen Daumen und Zeigefinger. Das Adrenalin des Schlags hatte den Schmerz wohl unterdrückt. Jetzt, da der Puls sank, brannte es. Scharf, wie eine glühende Nadel. Eine Wespe? Er sah kurz hin. Ein roter Punkt, lächerlich klein. Er schüttelte die Hand einmal aus. Tief die Morgenluft einatmen.</p>
+
+    <p>Danach marschierte er zu seinem Ball.</p>
+
+    <p>Nach fünfzig Schritten wurde der Boden unter seinen Füßen weich. Nicht die feuchte Erde des Mooses – seine Beine wurden zu Brei. Die Welt um ihn herum verlor die Kanten. Das fahle Licht der Sonne fraß die Farben vom Fairway, bis alles nur noch ein körniges Grau war.</p>
+
+    <p><em>„Alles okay?"</em>, fragte das Arschloch von hinten.</p>
+
+    <p>Aris wollte antworten, aber seine Zunge war plötzlich zu groß für seinen Mund. Ein Kribbeln schoss von der Einstichstelle den Arm hoch, direkt in die Brust, als würde jemand dort ein Nest aus Hornissen ausschütten. Ein Rauschen setzte ein. Lauter als jeder Wasserfall.</p>
+
+    <p>Er erreichte seinen Ball. Er zog das Eisen, rein mechanisch. Aber die Hände gehörten ihm nicht mehr. Sie fühlten sich an wie Handschuhe aus dickem Gummi.</p>
+
+    <p>Er schlug. Der Ball flog tatsächlich. Irgendwie. Drei Meter neben die Fahne. Ein Wunder der Muskelerinnerung.</p>
+
+    <p>Er taumelte zum Grün. Das Pochen im Kiefer war jetzt ein Hämmern.</p>
+
+    <div class="fade-block" id="fadeBlock">
+      <p>Er puttete, ohne das Loch wirklich zu sehen.</p>
+      <p>Er sah nur das schwarze Nichts in der Mitte des grauen Dunstes.</p>
+      <p>Der Ball rollte.</p>
+      <p>Langsam.</p>
+      <p>Unendlich langsam.</p>
+    </div>
+
+    <div class="plop" id="plop">
+      <span class="plop-word">Plop</span>
+      <div class="plop-rule"></div>
+    </div>
+
+    <p>Und auch Aris fiel.</p>
+
+    <p>Er schlug auf dem Gras auf, weich, fast lautlos. Die Sonne über dem Moos starrte teilnahmslos auf ihn herab. Der Nörgler stand da, der Mund offen, der nächste Spruch auf den Lippen erstorben.</p>
+
+    <div class="silence" id="silence">· · · · · · · · · · stille · · · · · · · · · ·</div>
+
+    <p>Nur das ferne, gleichgültige Summen einer Wespe, die in Richtung der Gräben verschwand.</p>
+
+  </article>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="f-label">Roman · Leseprobe Ende</div>
+      <div class="f-title">Ausgelocht</div>
+      <div class="f-author">Stanley J. Vaughn</div>
+    </div>
+    <div style="text-align:right">
+      <a href="#" class="cta-btn">Zum vollständigen Roman</a>
+      <div class="copyright">© Stanley J. Vaughn · Alle Rechte vorbehalten</div>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll(
+      '.story p, .fade-block, .plop, .silence, .chapter-wrap'
+    ).forEach(el => io.observe(el));
+
+    // Stagger paragraphs
+    document.querySelectorAll('.story p').forEach((p, i) => {
+      p.style.transitionDelay = `${Math.min(i * 0.03, 0.22)}s`;
+    });
+  </script>
+</body>
+</html>
