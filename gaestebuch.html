@@ -4,20 +4,73 @@
     <meta charset="UTF-8">
     <title>Gästebuch – Stanley J. Vaughn</title>
     <style>
-        body { font-family: Georgia, serif; max-width: 600px; margin: 60px auto; padding: 0 20px; background: #fafafa; color: #333; }
-        h1 { font-size: 2em; margin-bottom: 10px; }
-        input, textarea { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 4px; font-family: Georgia, serif; font-size: 1em; box-sizing: border-box; }
+        body {
+            font-family: Georgia, serif;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+            background: #111;
+            color: #ccc;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #fff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+        }
+        p { color: #888; font-style: italic; }
+        label { color: #aaa; font-size: 0.9em; letter-spacing: 1px; text-transform: uppercase; }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 20px;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 2px;
+            color: #ccc;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #666;
+        }
         textarea { height: 150px; }
-        button { background: #333; color: white; padding: 12px 30px; border: none; border-radius: 4px; font-size: 1em; cursor: pointer; }
-        button:hover { background: #555; }
-        a { color: #333; }
-        .back { display: inline-block; margin-bottom: 30px; font-size: 0.9em; }
+        button {
+            background: #1e1e1e;
+            color: #ccc;
+            padding: 12px 30px;
+            border: 1px solid #555;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #333;
+            color: #fff;
+            border-color: #888;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        .back:hover { color: #aaa; }
     </style>
 </head>
 <body>
     <a class="back" href="https://s-j-vaughn-2.jimdosite.com">← Zurück zur Webseite</a>
     <h1>Gästebuch</h1>
-    <p>Hinterlasse einen Eintrag – ich freue mich über jede Nachricht!</p>
+    <p>Hinterlasse einen Eintrag – ich freue mich über jede Nachricht.</p>
 
     <form action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="e2921b97-5ff9-410e-a4e4-fb523340957b">
@@ -25,6 +78,8 @@
         <input type="hidden" name="redirect" value="https://tasmus2406.github.io/Leseproben/danke.html">
         <label>Dein Name</label>
         <input type="text" name="name" required placeholder="Dein Name">
+        <label>Deine E-Mail (optional)</label>
+        <input type="email" name="email" placeholder="deine@email.de (optional)">
         <label>Dein Eintrag</label>
         <textarea name="message" required placeholder="Was möchtest du mir mitteilen?"></textarea>
         <button type="submit">Eintrag absenden</button>
