@@ -12,4 +12,4 @@ Leseproben von Stanley J. Vaughn
 - [Gästebuch](gaestebuch.html)
 - [Das kalte Tier](magna_arkania_leseprobe.html)
 - [Norgorods Atem](norgorods_atem_leseprobe)
-- [Im Banner des Eyfjölls](im_banner_des_eyfjoells)
+- [Im Banner des Eyfjölls](im_banner_des_eyfjoells_leseprobe)
