@@ -11,3 +11,4 @@ Leseproben von Stanley J. Vaughn
 - [Minus 192 Grad](minus-192-grad-leseprobe.html)
 - [Gästebuch](gaestebuch.html)
 - [Das kalte Tier](magna_arkania_leseprobe.html)
+- [Norgorods Atem](norgorods_atem_leseprobe)
