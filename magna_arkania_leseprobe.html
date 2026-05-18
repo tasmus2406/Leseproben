@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magna Arkania – Leseprobe</title>
+  <style>
+    :root {
+      --bg: #050708;
+      --ink: #e7e1d2;
+      --muted: #9ea8a9;
+      --gold: #b79a5e;
+      --ice: #9ec7d3;
+      --shadow: rgba(0,0,0,.72);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(116,148,160,.20), transparent 32rem),
+        radial-gradient(circle at 15% 25%, rgba(66,91,102,.24), transparent 26rem),
+        linear-gradient(180deg, #091012 0%, #050708 45%, #020303 100%);
+      background-color: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.86;
+      letter-spacing: .01em;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 54px 54px, 100% 7px;
+      mix-blend-mode: screen;
+      opacity: .28;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at center, transparent 0 42%, rgba(0,0,0,.74) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.04), transparent 18%, transparent 76%, rgba(0,0,0,.55));
+    }
+
+    .snow {
+      position: fixed;
+      inset: -20vh 0 0 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        radial-gradient(circle, rgba(226,241,245,.75) 0 1px, transparent 1.4px),
+        radial-gradient(circle, rgba(226,241,245,.55) 0 1px, transparent 1.3px);
+      background-size: 180px 220px, 260px 300px;
+      animation: fall 24s linear infinite;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-8vh); }
+      to { transform: translateY(18vh); }
+    }
+
+    .wrap {
+      width: min(860px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 80px 0 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 24px 44px;
+      margin-bottom: 34px;
+      border: 1px solid rgba(183,154,94,.28);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), transparent 42%),
+        radial-gradient(circle at 50% 0%, rgba(158,199,211,.16), transparent 24rem),
+        rgba(3,5,6,.64);
+      box-shadow: 0 30px 80px var(--shadow);
+      position: relative;
+    }
+
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(183,154,94,.55), transparent);
+    }
+
+    header::before { top: 22px; }
+    header::after { bottom: 22px; }
+
+    .series {
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      font-size: clamp(.72rem, 1.6vw, .9rem);
+      text-transform: uppercase;
+      letter-spacing: .42em;
+      color: var(--gold);
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 12vw, 7.8rem);
+      line-height: .85;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .045em;
+      color: #efe4c5;
+      text-shadow: 0 0 22px rgba(158,199,211,.18), 0 8px 22px rgba(0,0,0,.85);
+    }
+
+    .subtitle {
+      margin: 30px auto 0;
+      max-width: 620px;
+      font-style: italic;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.22rem);
+    }
+
+    .rune-band {
+      margin: 34px auto;
+      padding: 10px 0 6px;
+      width: min(620px, 86%);
+      text-align: center;
+      color: rgba(183,154,94,.82);
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      letter-spacing: .35em;
+      border-top: 1px solid rgba(183,154,94,.25);
+      border-bottom: 1px solid rgba(183,154,94,.18);
+      filter: drop-shadow(0 0 12px rgba(158,199,211,.18));
+    }
+
+    main {
+      padding: clamp(28px, 5vw, 62px);
+      background:
+        linear-gradient(180deg, rgba(15,24,27,.86), rgba(5,7,8,.88)),
+        radial-gradient(circle at 15% 0%, rgba(158,199,211,.08), transparent 22rem);
+      border: 1px solid rgba(158,199,211,.12);
+      box-shadow: 0 28px 90px var(--shadow);
+    }
+
+    .chapter {
+      display: flex;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 40px;
+      color: var(--gold);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .28em;
+    }
+
+    .chapter-number {
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      line-height: .75;
+      color: rgba(183,154,94,.36);
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .chapter-title {
+      padding-bottom: .4rem;
+      font-size: .78rem;
+    }
+
+    p {
+      margin: 0 0 1.35em;
+      font-size: clamp(1.08rem, 2.4vw, 1.33rem);
+      color: rgba(231,225,210,.92);
+      text-shadow: 0 1px 0 rgba(0,0,0,.8);
+    }
+
+    p.opening::first-letter {
+      float: left;
+      font-size: 5.3em;
+      line-height: .78;
+      padding: .08em .13em 0 0;
+      color: var(--gold);
+      font-weight: bold;
+      text-shadow: 0 0 22px rgba(183,154,94,.22);
+    }
+
+    .frost-rule {
+      width: min(520px, 82%);
+      height: 1px;
+      margin: 42px auto;
+      background: linear-gradient(90deg, transparent, rgba(158,199,211,.65), rgba(183,154,94,.55), rgba(158,199,211,.65), transparent);
+      box-shadow: 0 0 18px rgba(158,199,211,.25);
+    }
+
+    .sigil {
+      margin: 54px auto 10px;
+      width: min(360px, 72%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: rgba(183,154,94,.72);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-size: .72rem;
+    }
+
+    .sigil::before,
+    .sigil::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, currentColor);
+    }
+
+    .sigil::after {
+      background: linear-gradient(90deg, currentColor, transparent);
+    }
+
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      color: rgba(158,199,211,.52);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .34em;
+      font-size: .72rem;
+    }
+
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 22px, 860px); padding-top: 36px; }
+      header { padding: 44px 14px 34px; }
+      main { padding: 26px 20px; }
+      p { line-height: 1.78; }
+      .rune-band { letter-spacing: .18em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="snow" aria-hidden="true"></div>
+  <div class="wrap">
+    <header>
+      <div class="series">Magna Arkania · Leseprobe</div>
+      <h1>Das kalte Tier</h1>
+      <p class="subtitle">Ein Auszug aus den kalten Landen, wo Schwüre im Frost verfaulen und jedes Banner seinen Schatten wirft.</p>
+      <div class="rune-band" aria-hidden="true">𒀭 𒈾 𒆠 𒊩 𒌓 𒀀 𒆳 𒋾 𒉌</div>
+    </header>
+
+    <main>
+      <div class="chapter">
+        <div class="chapter-number">I</div>
+        <div class="chapter-title">Geesthum</div>
+      </div>
+
+      <p class="opening">Eisiger Wind mit Dornen. Hinterhältig rissen sie Byrons Wangen auf, als er vor die Tür der Schenke trat. Er hasste diese Nächte, die kamen wie eine Selbstgeißelung. Geesthum stank nach Schuld, dabei hatte er noch nicht mal etwas verbrochen. Warum war er nur hier?</p><p class="">Mit einem Ruck riss er eine Fackel aus der Halterung, schritt in den Hof und sah sich um.</p><p class="">Die Mühle ragte im Mondlicht wie ein finsterer Wachturm auf, und das monotone Quietschen des Schaufelrades, das den Tag über klagte, war nun verstummt. Die Kornspeicher lagen verlassen wie die Lastenkähne des Mühlenflusses. Selbst im Stall regte sich nichts, kein Wiehern, kein Scharren. Nur Stille.</p><p class="">Byron nickte zufrieden und schwenkte die Fackel – einmal, zweimal. „Lasst mich nicht zu lange warten, elendes Pack.“</p><div class="rune-band" aria-hidden="true">𒂍 𒀭 𒆗 𒈠 𒊭 𒄿 𒅆 𒆪 𒌋</div><p class="">Wie zur Antwort kroch Nebel aus dem Telfogger Wald, begleitet vom Flüstern der Blätter. Die Luft trug den Geruch von Schnee. Bald würde er die Wipfel bedecken und das Land unter einem weißen Tuch begraben.</p><p class="">Eine Bewegung ließ ihn innehalten, Schatten regten sich im Dunst. Schwarz gewandete Reiter trabten über die steinerne Brücke, das Klacken der Eisenhufe hallte durch den Nebel wie das Schlagen eines Totenhammers.</p><p class="">Byron spuckte aus. Verdammte Glaubensfanatiker. Den Anführer der sechs schwer bewaffneten Drudenritter kannte er, dennoch stellten sich ihm die Nackenhaare auf.</p><p class="">Ketana, Fürstin vom See, hinter diesem unscheinbaren Namen versteckte sich eine machtbesessene Sadistin, die sich den schwarzen Künsten verschrieben hatte und vor nichts zurückschreckte. Unter ihrem Drudenbanner versammelte sie fast eintausend Ritter, treu ergeben bis zum Tod. Genau der Schlag Mensch, den man brauchte, um die Kaiserkrone mit Gewalt an sich zu reißen. Aus dem Augenwinkel erkannte Byron eine Schar Nachtvögel, die sich lautlos in die Bäume setzte – Augen und Ohren Ketanas.</p><p class="">Rücksichtslos riss sie die Zügel zurück, ihr Pferd schnaubte und kam vor ihm zum Stehen. „Lord Shetter, ich dachte, die Würmer hätten Euren vermoderten Leib längst gefressen.“</p><p class="">Ihre schneidende Stimme war wie immer unangenehm. Trotz der edlen und schweren Brigantine schwang sie sich elegant von ihrem Ross, nahm den Nasenhelm ab und lächelte kalt. Das ausdruckslose Gesicht stand im krassen Gegensatz zu ihrem schwarzen Haar, das sie offen trug - eine stumme Verachtung aller Sitten. Auf ihre Art strahlte die Frau einen gewissen Reiz aus, doch die Frage blieb, warum sie hier persönlich erschien.</p><div class="frost-rule" aria-hidden="true"></div><p class="">„Freut mich auch, Euch zu sehen, Ketana.“ Die Verbeugung fiel knapp aus, beinahe höhnisch. Dennoch war er nicht töricht, ein falsches Wort und sie würden seinen Namen in einen Stein ritzen.</p><p class="">Die Drudenritter, eingehüllt in schwere Pelzmäntel, saßen lässig auf ihren Streitrössern, doch der Gleichmut täuschte. Er sah die wachen Augen, die jede Bewegung registrierten, die Hände, die nicht zufällig auf den Waffen lagen. Die Armbrust des Vylorers ruhte griffbereit auf seinem Schoß. Byron wusste, der Bolzen träfe ihn, lange bevor er auch nur den Schwertknauf berührte.</p><p class="">Während Ketana ihre Lederhandschuhe auszog, sagte sie, „Ihr lasst es wie immer an Respekt mangeln, mein Lieber.“ Mit der flachen Hand gab sie ihm spielerisch eine Ohrfeige, eine Geste, die ihn bewusst herabsetzte. „Wie geht es Eurem Schützling Prinz Almond? Er ahnt hoffentlich nichts?“ Sie musterte ihn kühl. „Ihr wisst, was auf dem Spiel steht, daher finde ich Euer Tun mehr als bedenklich. Ihr unterrichtet ihn sogar im Schwertkampf, wie ich hörte.“ Ein bedrohlicher Unterton mischte sich in ihre Stimme. „Schätzt den Wert Eures Lebens nicht zu hoch ein, Lord Shetter. Was soll diese Posse?“</p><p class="">Nur mit Mühe unterdrücke Byron einen Fluch. Ketanas Spitzel waren überall. Laut sagte er, „Wenn ich mich recht erinnere, war genau das meine Aufgabe. Er plant, bei Morgengrauen aufzubrechen und seine Ländereien zu besichtigen.“</p><p class="">„Erfreulich ... dann lasst uns die Einzelheiten klären.“</p><p class="">Er trat zur Seite. „Nach Euch“, brachte er zähneknirschend hervor.</p><p class="">Erst jetzt stiegen die Männer ab und folgten ihr in den Schankraum. Ritter Engelmahr bedachte ihn mit einem mitleidigen Blick, seine berüchtigte Streitaxt trug er locker in der rechten  Hand. „Ein gut gewählter Treffpunkt, einer Ratte würdig“, brummte er.</p><p class="">Ihm folgte Junker Gabriel, ein fanatischer Drude, der am liebsten jeden Sünder mit dem Feuer läutern würde. „Demut ziert das ärmste Haus, Engelmahr. Soll ich Euch das Gleichnis von dem Bettler und ...“</p><p class="">„Spare dir die Worte für den Scheiterhaufen … oder den letzten Stein, der deinen Namen trägt“, unterbrach er ihn grob.</p><p class="">Byron hielt sich zurück und blähte die Nasenflügel. Fanatische Raubhunde, mit Bedacht von Ketana gewählt. Auf ihren Umhängen erkannte er die Wappen einflussreicher Familien darunter den Urbaum der Winters, deren Sprösslinge in jedem Winkel des Kaiserreiches hohe Titel bekleideten. Das Spiel um die Thronfolge war in vollem Gange und der Ausgang ungewiss, aber noch war nichts verloren. Byron spürte die vertraute Kühle seines Schwertes, das Geschenk Ser’Tas, das mehr verbarg, als es zeigte.</p><p class="">Der dunkelhäutige Vylorer hob seine Armbrust und blieb im Türrahmen stehen. „Die Kälte ist eine angenehmere Gesellschaft“, murmelte er, „sie stellt keine Fragen.“ Er grinste und zeigte eine Reihe weißer Zähne, bevor er die Tür schloss.</p>
+
+      <div class="sigil">Magna Arkania</div>
+    </main>
+
+    <footer>Stanley J. Vaughn</footer>
+  </div>
+</body>
+</html>
