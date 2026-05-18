@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Im Banner des Eyfjölls – Leseprobe</title>
+<style>
+:root {
+  --bg:#031014;
+  --deep:#04181f;
+  --panel:#08161b;
+  --ink:#dfe8e7;
+  --muted:#91a8ab;
+  --teal:#6bb6c3;
+  --sea:#3f7d89;
+  --gold:#b89f68;
+}
+*{box-sizing:border-box}
+html {
+  min-height:100%;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(107,182,195,.28), transparent 32rem),
+    radial-gradient(circle at 10% 30%, rgba(63,125,137,.24), transparent 28rem),
+    linear-gradient(180deg,#021015,#03161d 45%,#010708 100%);
+}
+body {
+  margin:0;
+  color:var(--ink);
+  font-family:Georgia, "Times New Roman", serif;
+  line-height:1.88;
+  overflow-x:hidden;
+}
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(107,182,195,.12), transparent 20rem),
+    radial-gradient(circle at 80% 10%, rgba(184,159,104,.08), transparent 18rem),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.015) 0 1px, transparent 1px 60px);
+}
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at center, transparent 0 50%, rgba(0,0,0,.84) 100%);
+}
+.currents {
+  position:fixed;
+  inset:-10%;
+  pointer-events:none;
+  opacity:.38;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(107,182,195,.22), transparent 30rem),
+    radial-gradient(ellipse at 70% 60%, rgba(107,182,195,.12), transparent 28rem);
+  filter:blur(18px);
+  animation:drift 16s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform:translateX(-1rem) translateY(.5rem); }
+  to { transform:translateX(1rem) translateY(-.5rem); }
+}
+.wrap {
+  width:min(920px, calc(100% - 28px));
+  margin:0 auto;
+  padding:64px 0 90px;
+  position:relative;
+  z-index:1;
+}
+.hero {
+  position:relative;
+  overflow:hidden;
+  padding:64px 24px 56px;
+  text-align:center;
+  border:1px solid rgba(107,182,195,.24);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%),
+    radial-gradient(circle at 50% 0%, rgba(107,182,195,.18), transparent 28rem),
+    rgba(4,12,16,.78);
+  box-shadow:0 34px 100px rgba(0,0,0,.82);
+}
+.hero::before {
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px solid rgba(107,182,195,.10);
+}
+.series {
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.44em;
+  color:var(--gold);
+  font-size:.76rem;
+  margin-bottom:28px;
+}
+h1 {
+  margin:0;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  line-height:.86;
+  font-size:clamp(2.8rem,10vw,7rem);
+  letter-spacing:.08em;
+  color:#e8f6f7;
+  text-shadow:0 0 30px rgba(107,182,195,.18), 0 10px 24px #000;
+}
+.sub {
+  margin:30px auto 0;
+  max-width:620px;
+  color:rgba(223,232,231,.70);
+  font-size:clamp(1rem,2vw,1.18rem);
+  font-style:italic;
+}
+.glyphs {
+  margin:42px auto 0;
+  color:rgba(107,182,195,.78);
+  font-size:1.35rem;
+  letter-spacing:.35em;
+  text-shadow:0 0 16px rgba(107,182,195,.28);
+}
+main {
+  margin-top:34px;
+  padding:clamp(28px,5vw,62px);
+  background:
+    linear-gradient(180deg, rgba(9,20,24,.95), rgba(4,10,12,.97)),
+    radial-gradient(circle at 50% 0%, rgba(107,182,195,.08), transparent 28rem);
+  border:1px solid rgba(107,182,195,.12);
+  box-shadow:0 32px 100px rgba(0,0,0,.82);
+  position:relative;
+}
+main::before {
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid rgba(184,159,104,.07);
+}
+.chapter {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:20px;
+  align-items:end;
+  margin-bottom:42px;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.no {
+  font-size:clamp(4rem,10vw,7rem);
+  line-height:.75;
+  color:rgba(184,159,104,.28);
+  font-weight:900;
+}
+.ct {
+  letter-spacing:.34em;
+  font-size:.76rem;
+  padding-bottom:.55rem;
+  border-bottom:1px solid rgba(107,182,195,.20);
+}
+p {
+  margin:0 0 1.4em;
+  font-size:clamp(1.08rem,2.3vw,1.28rem);
+  color:rgba(223,232,231,.94);
+  text-shadow:0 1px 0 #000;
+}
+p.opening::first-letter {
+  float:left;
+  font-size:5.7em;
+  line-height:.76;
+  padding:.08em .12em 0 0;
+  color:var(--teal);
+  font-weight:900;
+  text-shadow:0 0 22px rgba(107,182,195,.24);
+}
+p:nth-of-type(4),
+p:nth-of-type(8),
+p:nth-of-type(12) {
+  padding-left:clamp(14px,3vw,28px);
+  border-left:1px solid rgba(107,182,195,.22);
+}
+.wave {
+  margin:48px auto;
+  width:min(560px,84%);
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(107,182,195,.7), rgba(184,159,104,.4), rgba(107,182,195,.7), transparent);
+  box-shadow:0 0 22px rgba(107,182,195,.22);
+}
+.sigil {
+  margin:56px auto 10px;
+  width:min(460px,82%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  color:rgba(107,182,195,.72);
+}
+.sigil::before,.sigil::after {
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,currentColor);
+}
+.sigil::after {
+  background:linear-gradient(90deg,currentColor,transparent);
+}
+.mark {
+  width:54px;
+  height:54px;
+  border:1px solid currentColor;
+  border-radius:50%;
+  position:relative;
+}
+.mark::before {
+  content:"";
+  position:absolute;
+  inset:11px;
+  border:1px solid currentColor;
+  border-radius:50%;
+}
+.mark::after {
+  content:"";
+  position:absolute;
+  inset:22px;
+  background:currentColor;
+  border-radius:50%;
+}
+.footer {
+  margin-top:18px;
+  text-align:center;
+  color:rgba(184,159,104,.58);
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.32em;
+  font-size:.74rem;
+}
+@media(max-width:620px){
+  .wrap{width:min(100% - 20px,920px);padding:36px 0 68px;}
+  .hero{padding:44px 18px 40px;}
+  main{padding:26px 20px;}
+  p{line-height:1.76;}
+}
+</style>
+</head>
+<body>
+<div class="currents" aria-hidden="true"></div>
+<div class="wrap">
+<section class="hero">
+<div class="series">Magna Arkania · Leseprobe</div>
+<h1>Im Banner<br>des Eyfjölls</h1>
+<p class="sub">Tief unter dem schwarzen Wasser warten Dinge, die nicht vergessen haben.</p>
+<div class="glyphs">◌ ◈ ⟁ ⟡ ◌</div>
+</section>
+
+<main>
+<div class="chapter">
+<div class="no">III</div>
+<div class="ct">Das Lied des Eyfjölls</div>
+</div>
+
+<p class="opening">Abermals versank er mühelos in dieser Äthersphäre, hörte Stimmen und Geräusche – deutlich und doch zu weit weg, um etwas zu verstehen. Seine Sinne erfassten Leben, nur war es nicht Queilera. Er blickte sich um, erkannte zwischen den fächerartigen Korallen schlanke Silhouetten, die durch das Wasser glitten und deshalb schimmerten wie abgeschossene Lichtpfeile.</p>
+<p class="">Vorsichtshalber tauchte er in eine Spalte. Umgeben von Gebilden mit Fangarmen, steinernen Gewächsen mit Beulen so groß wie Hände und unzähligen Fäden, in die er sich beinahe verfing, zwängte er sich tiefer hinein in einen Tunnel.</p>
+<p class="">Während er auf ihre Antwort wartete verzweigte sich das Gebilde, das nicht natürlichen Ursprungs war.</p>
+<p class="">Vor seinem geistigen Auge erschienen Kirigolen, die vorsichtig mit einem Werkzeug Korallen abschlugen. Er sah, wie sie Anemonen bargen und Fische fingen, nur um sie an andere Orte zu bringen – Gärtner des Eyfjölls.</p>
+<p class="">„Du bist im Weg, Trakta.“ Spielerisch zwängte sich ein junge Wassergeborene an ihm vorbei, berührte liebevoll seine Hand, bevor sie entschwand. Fasziniert betrachtete er seinen Arm, in dem sich eine Wärme ausbreitete, als wäre es nicht nur Einbildung gewesen.</p>
+<p class="">Ein gurgelndes Geräusch brachte Almond zurück in die Wirklichkeit. Waren ihm die Schatten gefolgt?</p>
+<p class="">Mit kräftigen Schwimmzügen folgte er dem Hauptweg, wie er annahm, denn dieser war breiter und führte in eine Tiefe, die in völliger Finsternis lag. Bald verlor Almond die Orientierung, nur war es bedeutungslos. Die Felsen, die Strömungen, selbst der Geruch des Riffs – die ureigenste Kraft des Usa´kal nahm alles wahr, ohne es zu hinterfragen. Er brauchte keine Augen. Er war ein Geschöpf der Tiefsee.</p>
+<p class="">Komm, Usa’kal. Du bist gleich da. Sieh nach oben.</p>
+<p class="">Zwischen zwei gewölbten Steinwänden, eingewachsen in ein Geflecht aus Nesselfäden, öffnete sich ein schmaler Durchlass. Wie ein Vorhang, der nur jenen Einlass gewährte, die nicht suchten, sondern gerufen wurden.</p>
+<p class="">Er tastete sich hindurch. Die Fäden streichelten seine Schuppen, kühl und lebendig wie Seide. Doch der Stab brannte, als sträubte er sich gegen diesen Weg. Der Tunnel dahinter war eng, sein Körper zwängte sich durch die bröckelnden Wände, an denen sich gläserne Krebse klammerten. Wie lange wohl schon?</p>
+<p class="">Endlich weitete sich der Raum und sein Kopf tauchte aus dem Wasser. Das Gewölbe wirkte lebendig, organisch, wie die Innenseite eines uralten Muschelgehäuses. Verästelte Lichtadern zogen sich hindurch, leuchteten in einem sanften Licht, das aus einem Steinkristall kam, der von der Decke hing wie ein Stalagmit.</p>
+<p class="">Auf einem erhöhten Podest aus gewobenen Seegrasmatten, von kleinen Perlen und Fossilien durchsetzt, saß eine Frau. Sie hatte die Beine angezogen, das Kinn auf die Knie gestützt. Ihr Haar schwebte um sie wie ein Schleier aus Tinte. Sie hob den Kopf und ein leises Lächeln umspielte ihre Züge, doch es war müde und trug diesen Ausdruck von Schmerz und Heiterkeit.</p>
+<p class="">„Da bist du endlich“, sagte sie so melodisch wie nur eine Siranei es beherrschte. Er liebte sie für den Gesang des Eyfjölls und ihre gemeinsame Zeit – Elka´thar´.</p>
+<p class="">„Ulgha´Ta´um´feh, Kratara!“, rief er in Vorfreude aus. Die Worte kamen über seine Lippen, ohne zu überlegen.</p>
+<p class="">Er sah in verstörte Augen und da erst begriff er, dass es Queilera war, die auf dem Podest auf ihn wartete. Eine Traurigkeit erfasste ihn, vergleichbar mit dem Abschied eines geliebten Menschen.</p>
+<p class="">„Kratara!“, sagte er wehmütig und das Bild der Siranei verschwamm.</p>
+<p class="">Die Krigolin half ihm aus dem Wasser. „Du musst dich verwandeln, bevor dich das Eyfjöll verschlingt.“ Aus einem Lederbeutel fischte sie einen schwarzen Stein, einer Träne gleich.</p>
+<p class="">„Das ist von Trakt´ta´Umfah. Er hat gesagt, wenn du im Dunkel wanderst, muss ich dein Licht sein. Hier bin ich, um zu leuchten wie die Sonne.“</p>
+<p class="">Sie zog ihn hinunter auf die Matte. „Komm zu mir, mein lieber Almond. Denn wenn du gehst, bleibe ich für immer alleine zurück.“</p>
+
+<div class="wave"></div>
+
+<div class="sigil"><div class="mark"></div></div>
+<div class="footer">Stanley J. Vaughn</div>
+</main>
+</div>
+</body>
+</html>
