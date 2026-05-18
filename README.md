@@ -10,3 +10,4 @@ Leseproben von Stanley J. Vaughn
 - [Hierophant](hierophant-leseprobe.html)
 - [Minus 192 Grad](minus-192-grad-leseprobe.html)
 - [Gästebuch](gaestebuch.html)
+- [Das kaltee Tier](das-kalte-tier-leseprobe.html)
