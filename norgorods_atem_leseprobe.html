@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Norgorods Atem – Leseprobe</title>
+<style>
+:root {
+  --bg:#030405;
+  --panel:#0a0d0f;
+  --ink:#e9e0cf;
+  --muted:#a8aaa5;
+  --gold:#b7985a;
+  --ice:#9fc8d2;
+  --red:#5a1714;
+}
+* { box-sizing:border-box; }
+html {
+  min-height:100%;
+  background:
+    radial-gradient(circle at 50% -5%, rgba(159,200,210,.20), transparent 30rem),
+    radial-gradient(circle at 20% 38%, rgba(90,23,20,.20), transparent 24rem),
+    linear-gradient(180deg,#050708,#020303 76%);
+}
+body {
+  margin:0;
+  color:var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height:1.82;
+  overflow-x:hidden;
+}
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 80%, rgba(159,200,210,.10), transparent 35rem),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(180deg, rgba(255,255,255,.016) 0 1px, transparent 1px 9px);
+  opacity:.45;
+}
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at center, transparent 0 48%, rgba(0,0,0,.82) 100%);
+}
+.mist {
+  position:fixed;
+  inset:-10%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 15% 70%, rgba(159,200,210,.14), transparent 34rem),
+    radial-gradient(ellipse at 90% 20%, rgba(183,152,90,.08), transparent 28rem);
+  filter:blur(14px);
+  animation:mist 16s ease-in-out infinite alternate;
+}
+@keyframes mist {
+  from { opacity:.32; transform:translateX(-1.2rem) scale(1); }
+  to { opacity:.7; transform:translateX(1.2rem) scale(1.04); }
+}
+.wrap {
+  width:min(900px, calc(100% - 28px));
+  margin:0 auto;
+  padding:64px 0 92px;
+  position:relative;
+  z-index:1;
+}
+.hero {
+  position:relative;
+  padding:58px 24px 48px;
+  text-align:center;
+  border:1px solid rgba(183,152,90,.32);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 38%),
+    radial-gradient(circle at 50% 0%, rgba(159,200,210,.16), transparent 26rem),
+    rgba(3,4,5,.70);
+  box-shadow:0 34px 100px rgba(0,0,0,.82);
+  overflow:hidden;
+}
+.hero::before {
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px solid rgba(159,200,210,.12);
+  pointer-events:none;
+}
+.series {
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.46em;
+  color:var(--gold);
+  font-size:.76rem;
+  margin-bottom:26px;
+}
+h1 {
+  margin:0;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  font-size:clamp(3rem, 11vw, 8rem);
+  line-height:.82;
+  letter-spacing:.07em;
+  color:#efe3c7;
+  text-shadow:0 0 26px rgba(159,200,210,.16), 0 9px 24px #000;
+}
+.sub {
+  margin:32px auto 0;
+  max-width:600px;
+  color:rgba(233,224,207,.68);
+  font-style:italic;
+  font-size:clamp(1rem,2.2vw,1.22rem);
+}
+.ornament {
+  margin:42px auto 0;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  width:min(520px,86%);
+  color:rgba(183,152,90,.74);
+}
+.ornament::before,.ornament::after {
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,currentColor);
+}
+.ornament::after { background:linear-gradient(90deg,currentColor,transparent); }
+.mark {
+  width:46px;
+  height:46px;
+  border:1px solid currentColor;
+  transform:rotate(45deg);
+  position:relative;
+}
+.mark::before {
+  content:"";
+  position:absolute;
+  inset:11px;
+  border:1px solid currentColor;
+}
+main {
+  margin-top:32px;
+  padding:clamp(28px,5vw,62px);
+  background:
+    linear-gradient(180deg, rgba(13,17,18,.94), rgba(4,5,6,.96)),
+    radial-gradient(circle at 20% 0%, rgba(90,23,20,.10), transparent 24rem);
+  border:1px solid rgba(159,200,210,.14);
+  box-shadow:0 32px 100px rgba(0,0,0,.84);
+  position:relative;
+}
+main::before {
+  content:"";
+  position:absolute;
+  inset:18px;
+  border:1px solid rgba(183,152,90,.07);
+  pointer-events:none;
+}
+.chapter {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:20px;
+  align-items:end;
+  margin-bottom:42px;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.no {
+  font-size:clamp(4rem,10vw,7rem);
+  line-height:.75;
+  color:rgba(183,152,90,.30);
+  font-weight:900;
+}
+.ct {
+  letter-spacing:.36em;
+  font-size:.78rem;
+  padding-bottom:.55rem;
+  border-bottom:1px solid rgba(183,152,90,.25);
+}
+p {
+  margin:0 0 1.36em;
+  font-size:clamp(1.08rem,2.35vw,1.29rem);
+  color:rgba(233,224,207,.94);
+  text-shadow:0 1px 0 #000;
+}
+p.opening::first-letter {
+  float:left;
+  font-size:5.7em;
+  line-height:.76;
+  padding:.08em .12em 0 0;
+  color:var(--gold);
+  font-weight:900;
+  text-shadow:0 0 22px rgba(183,152,90,.22);
+}
+p:nth-of-type(2), p:nth-of-type(8), p:nth-of-type(10) {
+  padding-left:clamp(14px,3vw,28px);
+  border-left:1px solid rgba(159,200,210,.22);
+}
+.break {
+  margin:48px auto;
+  width:min(560px,84%);
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(159,200,210,.62),rgba(183,152,90,.5),rgba(159,200,210,.62),transparent);
+  box-shadow:0 0 22px rgba(159,200,210,.18);
+}
+.sigil {
+  margin:56px auto 10px;
+  width:min(460px,82%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  color:rgba(183,152,90,.78);
+}
+.sigil::before,.sigil::after {
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,currentColor);
+}
+.sigil::after { background:linear-gradient(90deg,currentColor,transparent); }
+.sigil .mark { width:54px; height:54px; }
+.footer {
+  margin-top:18px;
+  text-align:center;
+  color:rgba(183,152,90,.62);
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.34em;
+  font-size:.76rem;
+}
+@media(max-width:620px){
+  .wrap{width:min(100% - 20px,900px);padding:36px 0 68px;}
+  .hero{padding:44px 18px 38px;}
+  main{padding:26px 20px;}
+  p{line-height:1.74;}
+  .series,.ct,.footer{letter-spacing:.22em;}
+}
+</style>
+</head>
+<body>
+<div class="mist" aria-hidden="true"></div>
+<div class="wrap">
+  <section class="hero">
+    <div class="series">Magna Arkania · Leseprobe</div>
+    <h1>Norgorods<br>Atem</h1>
+    <p class="sub">Die Gruft der Könige</p>
+    <div class="ornament" aria-hidden="true"><div class="mark"></div></div>
+  </section>
+
+  <main>
+    <div class="chapter">
+      <div class="no">II</div>
+      <div class="ct">Lady Norgorods Schal</div>
+    </div>
+
+    <p class="opening">Wie eine Prozession Messdiener schlichen die Männer vorbei, gingen auf das Knie und rezitierten einen Psalm oder ein Gedicht, das ließ sich schwer sagen, da Freya deren Sprache nicht geläufig war.</p>
+<p class="">Zum Abschluss entzündete Siegbert eine Feuerschale, die in einer Vertiefung im Boden lag. „Verzeiht unser Eindringen, mein Gebieter, aber es ist unumgänglich.“ Der rote Feuerschein warf tanzende Schatten an die Wand und beleuchtete Götzenbilder, die aussahen, als wären sie vormals lebendig. Unscheinbar zwischen den Königen verharrten sie in grotesken Bewegungen. Freya trat einen Schritt zurück. „Was um Himmels willen ist das?“, krächzte sie. Die kleinwüchsigen Wesen erinnerten an entstellte Kinder, bewaffnet mit schartigen Dolchen und seltsamen Gerätschaften.</p>
+<p class="">„Die Bluthexen der Kranaks. Ihre Rituale hielten die Macht am Leben und natürlich die Könige selbst.“</p>
+<p class="">Freya runzelte die Stirn. „Und warum sehen sie so aus?“</p>
+<p class="">Siegbert antwortete gelassen, „Sie haben versagt und wurden zu Tode gefoltert, wie es der Brauch vorsieht. Die Balsamierer haben ein schauerliches Kunststück vollbracht und sie neben ihren Herren begraben. Welch Ehre, findet Ihr nicht?“ </p>
+<p class="">Sein Blick, bisher kalt und leer wirkte beinah lebendig im Angesicht des Grauens und wenn sie nicht irrte, dann lag darin ein Hauch Spott. Was sollte sie darauf nur antworten? „Wie steht es mit Eurer Ehre, Herr Ritter?“ </p>
+<p class="">„Siegbert von Arkant, unter dem Namen Mörder von Skulfur dem Hexenmeister bekannt, hat alles verloren, als er begehrte, was nicht begehrt werden durfte. Meine Strafe, Lady Shetter ist gerecht.“</p>
+<p class="">Freya überkam eine Ahnung. Sie trat näher an den Untoten, der nicht so modrig roch wie seine Kameraden. Mit einem Funkeln in den Augen sah er ihr entgegen, während sie eine Hand hob und mit einiger Überwindung, das Tuch berührte, das um seinen Hals gebunden war. </p>
+<p class="">Die Zartheit des Stoffes streichelte ihre Seele mit einem vergessenen Gefühl der Geborgenheit. Begleitet von einer flüchtigen Traurigkeit, floh der Augenblick allzu schnell aus der Grabkammer.</p>
+<p class="">Zurück blieben eine verwirrte Freya und der untote Ritter. Der Griff Siegberts schmerzte, wie der Ton in seiner Stimme, als er zupackte. „So ist es! Lady Norgorods Schal, das Zeichen der Schande, auf ewig mein ...“</p>
+<p class="">Abrupt wandte er sich ab und lief wie gehetzt an der Phalanx der Könige vorbei. Freya blies den angehaltenen Atem aus, aber ihre Neugierde war mehr als geweckt. Und noch etwas anderes lag in der Luft – das Parfum der Lady Norgorod und das nach ewigen Zeiten. Bevor Siegbert ihrem Blick entschwand, eilte sie hinterher. Keinesfalls wollte sie allein zwischen den Königen bleiben.</p>
+<p class="">Bald hatte sie ihn eingeholt. „Ihr seid nicht zufällig an meiner Seite“, stellte Freya fest. </p>
+<p class="">„Ihr seid des Titels einer Lady Shetter mehr als würdig. Zu Zeiten ... zu meinen Lebzeiten wäre es mir eine Ehre gewesen, Euch zu freien.“</p>
+<p class="">„Wer sagt, dass ich Wohlgefallen gezeigt hätte, lieber Siegbert. Geschweige, mein Tuch leichtfertig vergeben.“</p>
+<p class="">Er ließ einen krächzenden Laut erschallen, brüchig, hustend, aber eindeutig ein Lachen. „Nein.“</p>
+<p class="">„Nein, was?“, fragte Freya irritiert.</p>
+<p class="">„Ich bin nicht zufällig an Eurer Seite, ganz im Gegenteil. Graf Vandemeer will sicherstellen, dass Ihr alles erfahrt und in der Lage seid, den Pakt zu erfüllen. Ihr seid unsere Rettung, Lady Shetter, damit wir nicht für ewig, als Untote durch die Lande ziehen.“</p>
+
+    <div class="break" aria-hidden="true"></div>
+    <div class="sigil" aria-hidden="true"><div class="mark"></div></div>
+    <div class="footer">Stanley J. Vaughn</div>
+  </main>
+</div>
+</body>
+</html>
