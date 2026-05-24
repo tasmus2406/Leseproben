@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jellydome – Leseprobe</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@100;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --abyss:      #020810;
+    --deep:       #060e1a;
+    --void:       #0b1828;
+    --glow:       #3de8c8;
+    --glow-dim:   #1a6b5a;
+    --glow-faint: #0d3830;
+    --pulse:      #58f4d8;
+    --jellyblue:  #4db8e8;
+    --text:       #b8d8d0;
+    --text-dim:   #4a7a72;
+    --biolum:     rgba(61, 232, 200, 0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--abyss);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.9;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Pressure grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  /* Bioluminescent depth glow */
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(61,232,200,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: breathe 8s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleY(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scaleY(1.15); }
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--glow);
+    opacity: 0;
+    animation: drift linear infinite;
+  }
+
+  @keyframes drift {
+    0%   { opacity: 0; transform: translateY(100vh) translateX(0); }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-10vh) translateX(30px); }
+  }
+
+  /* Topbar */
+  .topbar {
+    width: 100%;
+    padding: 20px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--glow-faint);
+    background: var(--abyss);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glow-dim), transparent);
+    opacity: 0.5;
+  }
+
+  .topbar-author {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 100;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .topbar-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--glow-dim);
+    border: 1px solid var(--glow-faint);
+    padding: 5px 16px;
+  }
+
+  /* Depth indicator */
+  .depth-bar {
+    position: fixed;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .depth-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .depth-line {
+    width: 1px;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--glow-dim), transparent);
+    opacity: 0.4;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 110px 24px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-depth {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 100;
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(72px, 13vw, 130px);
+    letter-spacing: 0.12em;
+    line-height: 1;
+    color: var(--glow);
+    text-shadow:
+      0 0 40px rgba(61,232,200,0.35),
+      0 0 120px rgba(61,232,200,0.1);
+    animation: fadeUp 1.2s ease 0.2s both, pulseGlow 6s ease-in-out 1.4s infinite;
+    position: relative;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { text-shadow: 0 0 40px rgba(61,232,200,0.35), 0 0 120px rgba(61,232,200,0.1); }
+    50%       { text-shadow: 0 0 60px rgba(61,232,200,0.55), 0 0 160px rgba(61,232,200,0.2); }
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 28px 0 22px;
+    animation: fadeUp 1.2s ease 0.4s both;
+  }
+
+  .hero-ornament::before,
+  .hero-ornament::after {
+    content: '';
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glow-dim));
+  }
+
+  .hero-ornament::after {
+    background: linear-gradient(to left, transparent, var(--glow-dim));
+  }
+
+  .hero-ornament span {
+    color: var(--glow);
+    font-size: 10px;
+    opacity: 0.6;
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    animation: fadeUp 1.2s ease 0.6s both;
+  }
+
+  .hero-divider {
+    display: block;
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--glow-dim), transparent);
+    margin: 52px auto 0;
+    opacity: 0.5;
+    animation: fadeUp 1.2s ease 0.8s both;
+  }
+
+  /* Content */
+  .content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1.4s ease 0.9s both;
+  }
+
+  .content p {
+    margin-bottom: 1.7em;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  /* Drop cap */
+  .content p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 5.5em;
+    color: var(--glow);
+    float: left;
+    line-height: 0.78;
+    margin: 10px 14px 0 0;
+    text-shadow: 0 0 30px rgba(61,232,200,0.4);
+  }
+
+  /* Archive note */
+  .archive-note {
+    border-left: 2px solid var(--glow-faint);
+    padding: 16px 24px;
+    margin-bottom: 3em;
+    background: rgba(61,232,200,0.03);
+  }
+
+  .archive-note p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--text-dim) !important;
+    line-height: 1.7;
+    margin-bottom: 0 !important;
+    text-align: left !important;
+  }
+
+  .archive-note .archive-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--glow-dim);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* Scene break */
+  .scene-break {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 52px 0;
+  }
+
+  .scene-break::before,
+  .scene-break::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glow-faint));
+    max-width: 180px;
+  }
+
+  .scene-break::after {
+    background: linear-gradient(to left, transparent, var(--glow-faint));
+  }
+
+  .scene-break span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--glow-dim);
+    box-shadow: 0 0 8px var(--glow-dim);
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  /* Pressure marker - inline annotations */
+  .depth-tag {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--glow-dim);
+    border: 1px solid var(--glow-faint);
+    padding: 2px 8px;
+    vertical-align: middle;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+
+  /* Footer CTA */
+  .cta {
+    text-align: center;
+    padding: 80px 24px 100px;
+    border-top: 1px solid var(--glow-faint);
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--glow-dim), transparent);
+    margin: 0 auto 60px;
+    opacity: 0.5;
+  }
+
+  .cta-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 100;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(34px, 6vw, 52px);
+    color: var(--glow);
+    margin-bottom: 20px;
+    text-shadow: 0 0 40px rgba(61,232,200,0.2);
+  }
+
+  .cta-text {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-dim);
+    max-width: 500px;
+    margin: 0 auto 52px;
+    line-height: 1.75;
+    font-style: italic;
+  }
+
+  .cta-author {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 100;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--glow-dim);
+    margin-top: 52px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(61,232,200,0.08);
+  }
+
+  .fade-line {
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--abyss));
+    position: relative;
+    z-index: 2;
+    margin-top: -60px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Jellyfish SVG decoration */
+  .jelly-deco {
+    display: block;
+    margin: 0 auto 20px;
+    opacity: 0.15;
+    animation: floatJelly 10s ease-in-out infinite;
+  }
+
+  @keyframes floatJelly {
+    0%, 100% { transform: translateY(0) scaleX(1); }
+    50%       { transform: translateY(-12px) scaleX(0.95); }
+  }
+
+  .closing-mark {
+    text-align: center;
+    color: var(--glow-dim);
+    letter-spacing: 0.8em;
+    font-size: 14px;
+    margin-top: 3em !important;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 14px 20px; }
+    .depth-bar { display: none; }
+    .hero { padding: 70px 16px 60px; }
+    .content { padding: 60px 24px 80px; }
+    .content p:first-of-type::first-letter { font-size: 4em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating bioluminescent particles -->
+<div class="particles" aria-hidden="true">
+  <div class="particle" style="left:8%;  animation-duration:18s; animation-delay:0s;    width:1px; height:1px;"></div>
+  <div class="particle" style="left:19%; animation-duration:24s; animation-delay:3s;"></div>
+  <div class="particle" style="left:33%; animation-duration:20s; animation-delay:7s;    width:3px; height:3px; opacity:0.3;"></div>
+  <div class="particle" style="left:47%; animation-duration:16s; animation-delay:1s;    width:1px; height:1px;"></div>
+  <div class="particle" style="left:61%; animation-duration:22s; animation-delay:5s;"></div>
+  <div class="particle" style="left:73%; animation-duration:19s; animation-delay:11s;   width:2px; height:2px;"></div>
+  <div class="particle" style="left:85%; animation-duration:25s; animation-delay:2s;    width:1px; height:1px;"></div>
+  <div class="particle" style="left:55%; animation-duration:30s; animation-delay:8s;    width:3px; height:3px; background:#4db8e8; opacity:0.2;"></div>
+  <div class="particle" style="left:28%; animation-duration:21s; animation-delay:14s;   width:1px; height:1px; background:#4db8e8;"></div>
+</div>
+
+<!-- Depth sidebar -->
+<div class="depth-bar" aria-hidden="true">
+  <span class="depth-label">2000 m</span>
+  <div class="depth-line"></div>
+  <span class="depth-label">Tiefsee</span>
+</div>
+
+<nav class="topbar">
+  <span class="topbar-author">Aus dem Archiv</span>
+  <span class="topbar-label">Leseprobe</span>
+</nav>
+
+<header class="hero">
+  <!-- Minimal jellyfish SVG -->
+  <svg class="jelly-deco" width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="40" cy="32" rx="32" ry="22" fill="none" stroke="#3de8c8" stroke-width="1.2"/>
+    <path d="M20 52 Q18 68 16 80" stroke="#3de8c8" stroke-width="0.8" opacity="0.7"/>
+    <path d="M28 54 Q27 70 25 85" stroke="#3de8c8" stroke-width="0.8" opacity="0.5"/>
+    <path d="M40 55 Q40 72 40 88" stroke="#3de8c8" stroke-width="0.8" opacity="0.7"/>
+    <path d="M52 54 Q53 70 55 85" stroke="#3de8c8" stroke-width="0.8" opacity="0.5"/>
+    <path d="M60 52 Q62 68 64 80" stroke="#3de8c8" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="40" cy="30" rx="18" ry="12" fill="rgba(61,232,200,0.05)" stroke="none"/>
+    <ellipse cx="40" cy="28" rx="10" ry="7" fill="rgba(61,232,200,0.06)" stroke="none"/>
+  </svg>
+
+  <p class="hero-depth">2.000 Meter Tiefe · Atlantischer Rücken</p>
+  <h1 class="hero-title">Jellydome</h1>
+  <div class="hero-ornament"><span>✦</span></div>
+  <p class="hero-subtitle">Eine Stadt unter dem Meer</p>
+  <span class="hero-divider"></span>
+</header>
+
+<main class="content">
+
+  <div class="archive-note">
+    <span class="archive-label">Aus dem Archiv</span>
+    <p>Dieser Text stammt aus einem älteren Science-Fiction-Projekt. Er ist weniger eine abgeschlossene Kurzgeschichte als ein Blick in eine versunkene Welt: Jellydome, eine Stadt in der Tiefsee, geschützt von einer lebenden Qualle und Neridi, die mehr will als das Leben, das man ihr zugedacht hat.</p>
+  </div>
+
+  <p>Der autarke Unterwasserernter verweigerte hartnäckig seinen Dienst. Neridi tauchte ein weiteres Mal um das Kettenfahrzeug herum, das entfernt an einen flachen Mähdrescher erinnerte, ob nicht ein Stein oder etwas anderes zwischen den Ketten klemmte. Hier in 2000 Meter Tiefe herrschte Finsternis, nur ein kleiner Lichtstrahl half ihr bei der Suche. Der Lichtkegel ihrer Lampe wanderte zu den Pflanzenstrahlern, die zur gleichen Zeit ausfielen, wie der Ernter. Seltsamer Zufall. Um die Strahler kümmerte sich ein zweites Team, das ein paar hundert Meter entfernt arbeitete.</p>
+
+  <p>Die Erntemaschine wurde von unzähligen Fischschwärmen umkreist, denn wie üblich gelangte nur dreiviertel der Zuchtalgen und der anderen Unterwasserpflanzen in den Auffangbehälter, der Rest wurde sprichwörtlich Fischfutter. Die junge Frau kontrollierte ihren Sauerstoffvorrat. Zwei Stunden Zeit verblieben ihr noch, um die Maschine zu reparieren.</p>
+
+  <p>Ihr Tauchanzug verfügte über mehrere Lagen eines speziellen Materials gegen Kälte und Druck und die äußerste bestand aus einem lebenden Gewebe, das sich wie ein Tiefseefisch verhielt und stabile Enzyme bei hohem Druck entwickelte. So gerüstet war es schon gelungen, bis auf viertausend Meter Tiefe abzutauchen, nur verhärtete sich die Enzym-Schicht so stark, dass der Taucher fast bewegungsunfähig wird. Ihr leistungsstarker Tauchscooter übernahm nicht nur in solchen Fällen die Arbeit der Fortbewegung.</p>
+
+  <p>Aus dem Augenwinkel sah sie die bekannte Silhouette eines Blauhais. <em>Vorsichtig jetzt, Neridi</em>, ermahnte sie sich. Ihr Tauchpartner Palgomeni bewachte sie, bewaffnet mit einem Elektroschocker. Zur Sicherheit machte sie ihn auf die Bedrohung aufmerksam.</p>
+
+  <p>Nach diesem Tauchgang fiel ihr die ehrenhafte Aufgabe zu, die Besucher abzuholen, die sich angekündigt hatten. Nicht daran denken, konzentriere dich auf deine Arbeit, rief sie sich zur Ordnung. Behalte die Haie im Blick, die jetzt, wie auf ein geheimes Kommando auftauchten.</p>
+
+  <p>Sie blieb außerhalb der Reichweite des rotierenden Schneidwerkzeugs des Ernters. Manch sorgloser Meeresbewohner wurde schon geschnetzelt. Die Raubfische nahmen die Brocken dankend an, deshalb umrundeten an die zwanzig Haie die junge Frau. Auch die zweite optische Prüfung verlief ergebnislos. Es half nichts, Neridi öffnete die Abdeckung, um die Maschine manuell zu bedienen. Die Theorie und die Ausflüge mit ihren Ausbildern hatte sie auf alles vorbereitet, nur das Erlernte auch umzusetzen, fiel in eine andere Kategorie. Erfahrung.</p>
+
+  <p>Sie befand sich erst auf ihrem dritten Tauchgang ohne Lehrer, dementsprechend angespannt waren ihre Nerven. Ihr Tauchpartner Palgomeni trug nichts zur Beruhigung bei, sie traute ihm alles zu, selbst dass er sie im Ernstfall im Stich ließ. Er hob den Daumen. Keine Gefahr aus dem Rücken. Hoffentlich.</p>
+
+  <p>Zuerst schaltete sie den Kettenantrieb aus, danach das Schneidwerkzeug und als nächstes die Ansaugglocke für das Erntegut. Dann das Presswerk, welches das Wasser aus dem Vorratstank beförderte und zum Schluss die Stromversorgung. Das Brummen ebbte ab.</p>
+
+  <p>Jetzt kam der schwierige Teil, sie musste den Ernter zurück in die Basis schaffen. Sie öffnete die Einstiegsluke für den Piloten und setzte sich hinein. Palgomeni tauchte neben dem Fahrzeug auf und schüttelte vehement den Kopf. Sie seufzte, was für ein armseliger Shrimp, aus ihm würde nie ein gescheiter Subo werden.</p>
+
+  <p>Auf Knopfdruck verwandelte sich der Ernter in ein Tauchboot für Arme. Drei kleine Propellerturbinen und zwei seitliche Tragflächen kamen zum Vorschein. Sie berechnete für den kurzen Rückweg knapp eineinhalb Stunden. Volle Kraft voraus. In der Simulation erzielte sie regelmäßig Bestwerte, was ihr den Spitznamen Nerdi einbrachte und eher abwertend gemeint war. Palgomeni verlangsamte das Gefährt zusätzlich, indem er sich ungefragt und unerlaubt mitschleppen ließ. Sie versuchte, ihn mit einer eindeutigen Geste zu vertreiben, aber er zeigte ihr nur den Stinkefinger.</p>
+
+  <p><em>Ungehobelter Shrimp.</em></p>
+
+  <div class="scene-break"><span></span></div>
+
+  <p>Die Fahrt über den zerklüfteten Meeresrücken zog sich und da sie jeden schwarzen Raucher und jeden Felsen kannte, rückte der bevorstehende Besuch in ihren Fokus. Pendrax M, der Pendrax M, hatte sein Kommen angekündigt und er brachte Gäste von einem fernen Planeten mit. Die Gerüchte überschlugen sich und eines war aufregender als das andere. Sie konnte sich noch lebhaft erinnern, als sie ihm im Alter von zehn Jahren zum ersten und einzigen Mal begegnete. Halbmensch nannten sie ihn unter vorgehaltener Hand, doch er war ein Held, lebte seit Urzeiten und jeder kannte mindestens hundert Geschichten über ihn und seine Abenteuer. Es gab sogar ein Buch und natürlich hatte sie es gelesen. Hundertfach.</p>
+
+  <p>Neridi wollte es sich nicht nehmen lassen und stürmte ihm entgegen, um ihn zu fragen, was ein Halbmensch ist. Als er sie mit seinen ausdruckslosen Augen ansah, da wusste sie, was die anderen meinten.</p>
+
+  <p>Er hatte sich zu ihr gehockt und gesagt: <em>„Ein Halbmensch hat seine Seele verloren."</em> Nie würde sie das Gefühl vergessen, dass sie durchströmte, als er davon schritt, als würde ihr Held alleine in den Marianengraben tauchen, ohne Schutzausrüstung, um dort für alle Ewigkeiten in der Finsternis umherzuirren. Abends, beim Zubettgehen, hatte sie um eine neue Seele für ihn gebetet.</p>
+
+  <div class="scene-break"><span></span></div>
+
+  <p>Ein pulsierendes Leuchten in der Dunkelheit kündigte die nahe Stadt an. Neridi näherte sich von Süden, schlängelte sich durch die heißen Hydrothermalquellen, die Jellydome mit Wärme versorgten. Die ursprüngliche Form der sechs Kuppelbauten ließ sich höchstens noch erahnen. Alles war mit einer schwach leuchtenden, meterdicken organischen Masse umgeben. Wie eine Riesenqualle hatte sich die Substanz über die Stadt gestülpt und schützte sie vor dem ungeheuerlichen Druck, der hier unten auf den Gebäuden lastete. Aus dem Unterricht wusste sie, dass es sich um eine Quallenart handelte und mittels Gentechnik zu einer lebenden Tauchglocke umfunktioniert wurde. Lange Tentakel, an denen Nesselzellen haften, griffen nach allem, was sich bewegte. Sie hatte einen unstillbaren Appetit. Selbst einen gedankenlosen Taucher, der ihr zu nahe kam, hatte sie schon verdaut.</p>
+
+  <p>Periodisch entwickelte diese Druckqualle hunderttausende dieser Fangarme. Dann ähnelte Jellydome einem Fabelwesen, welches sich einen kilometerlangen zerrissenen Umhang umgeworfen hatte. Gespenstisch schön. Myriaden anderer Lebewesen bevölkerten diese neue Spezies.</p>
+
+  <p>Sie ließ die Stadt zu linker Hand liegen und fuhr mit dem Ernter zu einem separaten Schleusentor, das zur Werft führte. Diese lag fast zwei Kilometer entfernt. Ein Fischschwarm wich dem Fahrzeug aus. Kalte Augen musterten argwöhnisch den Ernter, während Tentakel nach den Dorschen griffen.</p>
+
+  <p>Das Kontrollzentrum hatte Neridi längst auf dem Schirm, deshalb wunderte sie es nicht, dass sich die Schleuse rechtzeitig öffnete und sie ohne Verzögerung einfahren konnte. Mit leichten Stromschlägen wurde die Quallenmasse zur Seite befördert.</p>
+
+  <p>Ein Zweikammerschleusensystem erwartete sie. Erst wenn die Qualle sich wieder vor den Eingang gelegt hatte, wurde sie in die zweite Kammer entlassen.</p>
+
+  <p>Das Wasser wurde abgepumpt. Der Anzug wog so viel, dass Neridi kaum laufen konnte, obwohl sie ständig im Kraftraum Gewichte stemmte. Palgomeni taumelte wie ein Besoffener zum Geländer, um sich daran festzuhalten. Sie erweiterte seinen Namen um ein Adjektiv. <em>Kraftloser Shrimp.</em> Mit Schaudern stellte sie sich vor, dass sie bald mit einem der noch verfügbaren Jünglinge den Beischlaf vollziehen musste, um der Gemeinschaft mindestens zwei Kinder zu gebären. Das war ihre Pflicht. Alle ihre Altersgenossinnen hatte schon Nachwuchs gezeugt, zur Welt gebracht und durften eine Stufe aufsteigen. Aber Neridi wollte nicht aufsteigen, bedeutete es doch, dass sie für eine lange Zeit nicht mehr zu ihren geliebten Taucheinsätzen kam.</p>
+
+  <p>Von der Seite musterte sie Palgomeni und stellte sich vor, der ungelenke, schwabbelige Kerl würde den Akt mit ihr vollziehen. Es galt, ein Ritual einzuhalten, aber der Shrimp würde es versauen. Ganz sicher. Es gab Fälle, bei denen der Beischlaf etliche Male wiederholt werden musste. Allein der Gedanke bescherte ihr Schnappatmung. Noch war Zeit, auch wenn die Stadtoberhäupter schon mit Oberflächenverbannung drohten. Sie erinnerte sich schmerzhaft an Apolina und ihre Mutter, die sich weigerten und dafür bestraft wurden. Manchmal malte sie sich aus, wie es wohl da oben wäre, aber das hieß, niemals wieder einen Fuß in Jellydome setzen zu dürfen. Dann doch lieber Beischlaf.</p>
+
+  <p>Sie schloss zu ihm auf und bot ihren Arm an. <em>„Wir könnten zusammen trainieren, ich bin jeden Morgen um sechs im Kraftraum"</em>, schlug sie vor.</p>
+
+  <p><em>„Du glaubst wohl, ich bin auf deine Hilfe angewiesen?"</em> Er drückte sie beiseite und stürzte. Es hatte keinen Zweck. Aus dem Shrimp würde nie ein Marlin werden, höchstens eine elende Makrele. Mit dieser Empfindung stapfte sie zur Tür, während Palgomeni auf dem Boden lag und dabei mit den Beinen und Armen strampelte wie eine Schildkröte auf dem Rücken. Verzweifelt, aber vergeblich versuchte er, sich aus der misslichen Lage zu befreien.</p>
+
+  <p><em>„Ich sag den Mädchen bescheid, dass sie dir helfen"</em>, rief sie ihm gehässig zu, freute sich insgeheim darüber und klopfte gegen die Stahltür. Seine Beleidigungen überhörte sie grinsend. Das Drehen des Rades, um die Schleustür zu öffnen, ersparte Neridi sich. Vielleicht benötigte sie ihre Kräfte später. Im Umkleideraum halfen ihr zwei Arbeiterinnen aus dem Anzug.</p>
+
+  <p><em>„Wie ist es draußen?"</em>, fragte Aine, nachdem sie ihr den übergroßen Taucherhelm abgenommen hatte. Er schwebte an einem Haken hängend an die Decke. Neridi löste das Haarnetz, welches ihre blonde Lockenmähne im Zaum hielt. Sie hatte schon häufiger die Schere angesetzt, aber sich dann doch nicht getraut.</p>
+
+  <p><em>„Spann mich nicht so auf die Folter"</em>, bat Aine erneut. Neridi überlegte sich immer kleine Abenteuergeschichten für die geistig zurückgebliebene Frau, nur heute hatte sie keine Zeit dafür.</p>
+
+  <p><em>„Aine!"</em>, sagte sie ernst. <em>„Wir bekommen wichtige Gäste aus dem Weltenreich."</em> Sie sah gewichtig nach oben und flüsterte. <em>„Ich werde dir später alles haarklein berichten. Einverstanden?"</em></p>
+
+  <p>Aine grinste beseelt. <em>„Versprochen?"</em></p>
+
+  <p><em>„Na klar."</em> Ein Zeichen besiegelte die Vereinbarung. <em>„Ich muss mich jetzt aber beeilen."</em> Sie stürzte los und wäre fast mit dem Wartungsmonteur Jacobi zusammengestoßen. Auf die Frage, was mit dem Ernter nicht in Ordnung sei, erhielt er eine gerufene Antwort, die keiner der Anwesenden verstand. <em>„Das wird ein böses Ende mit ihr nehmen. So eine wilde Fee."</em></p>
+
+  <div class="scene-break"><span></span></div>
+
+  <p>Neridi rannte den äußeren Serpentinenweg zu ihrer Unterkunft hoch, die glücklicherweise im selben Kuppelbau lag wie die Werkstätten und das Dock für die vielen Unterwasserfahrzeuge. Auf dem Weg dorthin begegnete ihr keine Menschenseele, zu dieser Stunde versammelten sich die meisten im Speisesaal, der sich in der Sozi-Kuppel befand.</p>
+
+  <p>Kaum dachte sie an Essen, meldete sich knurrend ihr Magen. In einer Schublade lagen noch ein paar Algenkekse, das würde reichen müssen. Seegrasmatten dämpften ihre Schritte, während die Wände im Wohntrakt überwiegend aus dickem gezüchteten Schilfrohr bestanden. Das allgegenwärtige pulsierende Licht kam von der leuchtenden Qualle.</p>
+
+  <p>Die ursprünglich feste, durchsichtige Konstruktion hatte sich schon stellenweise aufgelöst und nur durch Strom wurde die Qualle daran gehindert, in die Kuppel hineinzuwachsen. Fieberhaft suchten Ingenieure nach einer Möglichkeit, die Schäden zu reparieren, bisher vergeblich und der Zahn der Zeit nagte gnadenlos weiter.</p>
+
+  <p>Atemlos erreichte sie ihre Wohnung oder das, was die Gesellschaft für angemessen erachtete. Ein Zimmer und das obligatorische winzige WC. Die Gemeinschaftsbäder befanden sich in der Sozi-Kuppel.</p>
+
+  <p>Sie öffnete ihren Kleiderschrank, in der einige wenige Kleidungsstücke hingen. Überwiegend dienten sie dem Status innerhalb der Gemeinschaft. Die Wahl fiel auf die dunkelblaue Tauchfahrerkluft mit Hose, Bluse und Jacke. Alternativ stand ein Rock zur Auswahl, aber der fiel viel zu lang aus, damit sah sie aus wie ihre eigene Großmutter. Bevor sie erneut losrannte, entleerte sie ihre Blase, grabschte sich ihre Tüte mit den Keksen und rannte den gleichen Weg zurück.</p>
+
+  <div class="scene-break"><span></span></div>
+
+  <p><em>„Du bist eine Minute zu spät"</em>, stellte Kapitän Agoni tadelnd fest. Neridi schaute schuldbewusst zu Boden und kaute unmerklich ihren Keks zu Ende. Ihm vermochte niemand etwas recht zu machen. Der Ausbilder für die Tauchboote führte sein Schreckensregiment mit Härte und Unnachgiebigkeit. Sein bevorzugter Satz lautete: <em>„Ich dulde keine Nachlässigkeit, Ihr Leben hängt davon ab."</em></p>
+
+  <p>Nur bei ihr schien er zu einem lebenden Wesen zu mutieren und drückte auch schon mal ein Auge zu. <em>„Es tut mir schrecklich leid, aber ich habe keine Entschuldigung vorzubringen."</em> Eine billige Ausrede hatte noch nie zu einem positiven Resultat geführt, insofern schenkte sie sich die Zeit, um sich eine auszudenken.</p>
+
+  <p><em>„Los, rein mit dir"</em>, brummte er mürrisch. Trotzdem konnte sie ein Lächeln in seinem grauen Rauschebart erkennen. Schnell stieg sie in die Aqua 3, ein Tauchboot, welches acht Personen Platz bot. Sie krabbelte auf den Co-Pilotensitz, schnallte sich an und ging in Gedanken schon die Fragen durch, die Kapitän Einsiedlerkrebs gleich stellen würde. Ächzend schob sich der alte Mann durch das enge Gefährt. Gicht, Arthrose und Einsamkeit verwandelten sein Leben in eine fortwährende Qual. Neridi hatte das von Maren erfahren und die wiederum von Rutna, eine Schwester der Ärztin, die den Seebär behandelte. Die Frauen schworen Stillschweigen darüber zu bewahren, trotzdem wusste es die halbe Stadt, was ihn noch verdrießlicher werden ließ.</p>
+
+  <p><em>„Wir tauschen die Plätze"</em>, sagte er schroff.</p>
+
+  <p><em>„Was? aber … aber …"</em></p>
+
+  <p><em>„Bist du eine Tauchbootfahrerin oder nicht?"</em> Sie schluckte schwer, das kam so unversehens, dass sich sofort ein Bauchgrimmen einstellte. Sie mahnte sich zur Ruhe. <em>Davon hast du immer geträumt und heute ist es so weit. Es ist eine ganz normale Fahrt.</em></p>
+
+  <p>Aber es war keine normale Fahrt, er prüfte ihr Können und wenn sie sich nicht völlig verblödet anstellte, wäre sie in absehbarer Zeit eine Tauchbootfahrerin. Sie atmete tief ein. Mit einem eigenen Boot. Fast schwindelte ihr bei dem Gedanken.</p>
+
+  <p>Der Kapitän lehnte sich vor und sah sie von der Seite an. <em>„Wir wären dann soweit."</em></p>
+
+  <p><em>„Äh, ja … natürlich."</em> In ihrem Kopf herrschte gähnende Leere, was musste sie als Erstes machen? Eine Pranke landete auf ihrer Schulter und drückte so kräftig zu, dass es schmerzte.</p>
+
+  <p><em>„Kein Nachlässigkeit. Ein Fehler und du bist raus. Bring uns hoch, Neridi."</em> Noch nie hatte er sie beim Vornamen genannt. <em>Er verlässt sich auf dich, also enttäusche ihn nicht.</em></p>
+
+  <p>Sie nahm Funkkontakt auf. <em>„Hier spricht Aqua drei, erbitte Starterlaubnis und einen Tauchkorridor."</em></p>
+
+  <p><em>„Verstanden Aqua drei, wir fluten die Schleusenkammer"</em>, antwortete Oskar gewohnt dienstlich. <em>„Und viel Glück, Neridi"</em>, schob er fast flüsternd hinterher. Still freute sie sich darüber. Der Vorgang dauerte nur wenige Minuten, in der Zeit ging sie die Checkliste durch.</p>
+
+  <p><em>„Tauchzellen?"</em> Der Kapitän kontrollierte zur Sicherheit alle Systeme mit. <em>„Check." „Regelzellen?" „Tiefenruder?" „Sonar?"</em> Nacheinander arbeitete sie die Liste ab, bis sämtliche Einträge ein Häkchen zierten. Alle Systeme funktionierten störungsfrei. Die Anzeigen wie Fahrtenmesser, künstlicher Horizont, Höhenmesser und das Variometer waren frontal unterhalb der Sichtachse vor ihr angebracht. Das runde Sichtfenster aus dickem Panzerglas bot nur begrenzte Sicht, weshalb Monitore, Bilder der vier Kameras zeigten, die bei der visuellen Orientierung unterstützten. Etliche Schalter befanden sich über ihrem Kopf und der Steuerstick ruhte am Ende der Armlehne.</p>
+
+  <p><em>„Aqua drei, wir lösen die Haltevorrichtung und öffnen die Schleuse. Gute Fahrt!"</em></p>
+
+  <p><em>„Verstanden!"</em></p>
+
+  <p>Nur ein wenig musste Neridi nachkorrigieren, um das Boot in Balance zu halten. Die Schleusentür öffnete sich und das Tauchboot fuhr langsam aus der engen Luke heraus. Der Druck, der auf dem alten Unterseeboot lastete, veranlasste die Konstruktion zu protestierenden Geräuschen. Bei ihren ersten Fahrten hatte sich Neridi vor Angst fast die Hosen vollgemacht. Mittlerweile kannte sie das dumpfe Knacken und Knirschen. Trotzdem blieb ein Restrisiko. Beinahe fünfzig Tauchboote und deren Besatzung verunglückten in den letzten zweihundert Jahren.</p>
+
+  <p>Die Quallenmasse zog sich reflexartig zusammen als Strom durch die Drähte, die das Schleusentor umgaben, floss. Die Anspannung legte sich, nachdem sie das Tor passiert hatte. Auf dem Gesicht des alten Mannes ließ sich nicht ablesen, ob er mit ihrer bisherigen Leistung zufrieden war. Fischschwärme umkreisten sie und am liebsten hätte sie ein paar Runden um die Stadt gedreht. Nur dies war keine Vergnügungsfahrt. Ein Laser projizierte die Route als dreidimensionalen Tunnel auf die Scheibe. Neridi flutete die hintere Trimmzelle und das Boot wurde fünfzehn Grad achterlastig. Schnell gewannen sie Höhe. Nach einer Weile hielt sie das Schweigen nicht mehr aus und fragte: <em>„Ist das meine Prüfung?"</em></p>
+
+  <p><em>„Mhm."</em></p>
+
+  <p><em>„Bekomme ich ein eigenes Boot?"</em> Damit hätte sie ein gewichtiges Argument, um ihr Schicksal einige Jahre hinauszuzögern. Er zog ein Bild aus der Brusttasche und hielt es ihr kommentarlos vor die Nase. Beinahe wäre sie in Jubel ausgebrochen und ihm vor lauter Glückseligkeit um den Hals gefallen. Das Foto zeigte die Canicula, ein kleines aber feines Ein-Personen-U-Boot, das für extreme Tiefen ausgelegt war. Der alte schweigsame Mann hielt die Fahrkarte für ein aufregendes Leben in der Hand. Er hatte sich für sie stark gemacht. Nur sehr selten war es den Frauen gestattet, sich der Pflicht für die Gemeinschaft zu entziehen und mindestens zwei Kinder zu gebären.</p>
+
+  <p><em>„Danke"</em>, sagte sie ergriffen. Mehr brachte sie nicht heraus. Tränen füllten ihre Augen.</p>
+
+  <p><em>„Noch sind wir nicht in der Grotte."</em></p>
+
+  <p>Sie grinste nur noch dämlich vor sich hin, malte sich ihr neues Leben aus und hätte dabei fast die gefährlichen Strömungen vergessen, die um die Hauptinsel der Azoren zirkulierten. Im letzten Moment ließ sie das Boot absacken und tat, als wäre das pure Absicht. Mit einem Juchzer untermalte sie ihre Tauchkunst. Vorsichtig blickte sie zur Seite, aber es war unmöglich, in dem zugewucherten Gesicht eine Regung zu erkennen. <em>Konzentration, Neridi.</em> Sie atmete tief ein.</p>
+
+  <div class="scene-break"><span></span></div>
+
+  <p>Der schwierigste und gefährlichste Teil ihrer Tauchfahrt stand an. Der Weg in die Grotte. Der schmale Tunnel dorthin maß über einen Kilometer und im Inneren herrschten tückische Strömungen. Vier Strahler beleuchteten die Felswand des atlantischen Rückens, der die Inselgruppe entstehen ließ. Vorsichtig manövrierte sie das Boot in die Nähe des Tunneleingangs. Neridi wischte sich die feuchten Handflächen an ihrer Hose trocken. Nur nichts überstürzen.</p>
+
+  <p>Sie richtete das Tauchboot aus und fuhr langsam hinein, begleitet von einem Fischschwarm, der ihr zusätzlich die Sicht nahm. Ihr Ausbilder achtete sorgsam auf jede ihrer Handlungen. Sonst gab er ihr immer wichtige Hinweise, doch heute musste sie auf sich selbst vertrauen. Das Boot driftete zu weit nach rechts, deshalb steuerte sie dagegen und gab etwas mehr Schub auf den rechten Propeller. Das Manöver zeigte die gewünschte Wirkung und das Tauchboot richtete sich wieder aus. Da der Tunnel sanft anstieg, füllte sie die hintere Trimmzelle zu einem Achtel mit Wasser. Elegant wie eine Seeschlange wand sich das Boot durch die enge Röhre, selbst die Sechziggrad-Biegung bereitete ihr weniger Probleme als befürchtet. Langsam atmete sie die angehaltene Luft aus, wischte sich zum tausendsten Mal die Hände trocken und schloss für einen Moment die Augen. <em>Hervorragende Arbeit, Neridi</em>, lobte sie sich selbst, da es sonst niemand tat.</p>
+
+  <p>Sie wähnte sich schon fast am Ziel, als ein Seebeben das Tauchboot durchrüttelte. Sie stieß einen erstickten Schrei aus. Etwas hatte das Boot getroffen. Wasser strömte herein und ein Presslufttank verlor seinen Inhalt. Auf einem der Bildschirme sah sie viele Blasen aufsteigen. So schnell wie das Beben auftauchte, verschwand es wieder.</p>
+
+  <p><em>„Ruhig, ich krabbel nach hinten und sehe, ob ich das Leck beseitigen kann, und du tauchst auf"</em>, sagte ihr Prüfer.</p>
+
+  <p>Durch den Wassereinbruch gewann das Boot Gewicht, deshalb blies sie mehr Wasser aus den Tanks und hoffte, der Auftrieb würde ausreichen. Ein Propeller versagte seinen Dienst. Nur fünfzig Meter trennte sie vom senkrechten Aufstieg in die Grotte. Doch sie fuhr ihrem Ziel im Zeitlupentempo entgegen. Der Blick nach hinten zeigte den alten Mann, wie er keuchend versuchte, eine Verschraubung anzuziehen. Kurzfristig überließ Neridi dem Autopiloten die Steuerung. Gemeinsam hingen sie an der Vierzoll-Zange bis aus dem Wasserfall ein Rinnsal wurde.</p>
+
+  <p>Schnell kraxelte sie wieder auf den Pilotensitz. Immer noch zwanzig Meter. Irgendwo im hinteren Bereich platzte etwas, doch keine Anzeige verriet ihr, was da gerade in die Luft flog. Hektisch warf sie einen Blick über die Schulter. Hoffentlich nur ein unwichtiger Schlauch. Sie hörte einen Schmerzenslaut und einen weiteren Platzer. Ihr Höhenmesser zeigte eine Tiefe von einhundertzwei Metern. Das konnte unmöglich durch den Wasserdruck entstehen. Ein erneuter Knall ließ Luft lautstark hereinströmen. Pressluft. Der alte Kahn würde bald auseinanderfliegen. Endlich, die letzten Meter waren geschafft. Sie blies die Wassertanks leer, doch die Pressluft reichte nicht aus, um die Tanks restlos zu entleeren. Deshalb krochen sie der Oberfläche entgegen, während das eindringende Wasser das Boot zusätzlich beschwerte. Dann fiel ihr etwas ein. Sie rief den Mann am Funkgerät des Grottenhafens.</p>
+
+  <p><em>„Hier ist Aqua drei. Wir haben einen Notfall und schaffen es womöglich nicht bis zur Oberfläche. Wasser dringt ein, wir benötigen einen Taucher, der ein Seil am Kranhaken befestigt. Hören Sie mich?"</em></p>
+
+  <p><em>„Verstanden Aqua, ich schicke sofort zwei Männer runter, wie tief sind sie?"</em></p>
+
+  <p><em>„Hundert Meter, doch in ein paar Minuten geht es abwärts."</em></p>
+
+  <p><em>„Keine Sorge, wir sind gleich da. Ende."</em></p>
+
+  <p>Neridi konnte nichts tun, also versorgte sie Kapitän Agoni, der bewegungslos auf einem der hinteren Plätze saß. Eine heftig blutende Platzwunde auf der Stirn hatte sein Gesicht in eine rote Fratze verwandelt. Im Notfallkasten suchte sie nach geeignetem Verbandmaterial, aber der enthielt nicht einmal ein Pflaster. <em>Zehn Punkte Abzug für diese Nachlässigkeit. Durchgefallen, Neridi!</em></p>
+
+  <p>Mit der Schere schnitt sie ein Stück Stoff ihrer Baumwollbluse ab, drückte es dem Verletzten an die Stirn und warf einen Blick auf den Höhenmesser. Das Boot sank. Neridi schüttelte fassungslos den Kopf. <em>Die erste Fahrt und du versenkst das Tauchboot und bringst den Ausbilder um. Reife Leistung.</em></p>
+
+  <p>Ein Ruck beendete den Sinkflug. Es klopfte an der Scheibe. <em>„Herein"</em>, murmelte sie und kraxelte ans Sichtfenster.</p>
+
+  <p>Ein Taucher schwamm vor dem Fenster. Er hielt eine Stahltrosse in der Hand und zeigte nach oben, doch das war es nicht, was sie zutiefst irritierte. Der Taucher tauchte ohne Ausrüstung — und schimmerte golden.</p>
+
+  <p class="closing-mark">✦ ✦ ✦</p>
+
+</main>
+
+<div class="fade-line"></div>
+
+<footer class="cta">
+  <p class="cta-label">Ende der Leseprobe</p>
+  <h2 class="cta-title">Jellydome</h2>
+  <p class="cta-text">2000 Meter unter dem Atlantik pulsiert eine Stadt, bewacht von einer lebenden Qualle. Neridi will mehr als das Leben, das man ihr zugedacht hat — und ein goldener Taucher ohne Ausrüstung beginnt, alle Antworten zu verändern.</p>
+  <p class="cta-author">Aus dem Archiv</p>
+</footer>
+
+</body>
+</html>
