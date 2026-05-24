@@ -13,4 +13,4 @@ Leseproben von Stanley J. Vaughn
 - [Das kalte Tier](magna_arkania_leseprobe.html)
 - [Norgorods Atem](norgorods_atem_leseprobe)
 - [Im Banner des Eyfjölls](im_banner_des_eyfjoells_leseprobe.html)
-- [Jellydome](jellydome-leseprobe.html)
+- [Jellydome](jellydome_leseprobe.html)
