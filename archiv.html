@@ -147,49 +147,86 @@
 
   /* ── Das Buch (Card) ── */
   .card {
-    background-color: var(--book-cover);
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.035), transparent 18%),
+      radial-gradient(circle at 30% 20%, rgba(200,184,154,0.08), transparent 28%),
+      linear-gradient(135deg, #181514 0%, #090909 55%, #15110f 100%);
     /* Hochformat Proportionen */
-    aspect-ratio: 3 / 4; 
-    border: 1px solid rgba(255,255,255,0.03);
-    border-radius: 2px 5px 5px 2px; /* Leicht abgerundet vorne */
-    padding: 2.5rem 1.5rem 1.5rem 3rem; /* Mehr Platz links für den Rücken */
+    aspect-ratio: 3 / 4;
+    border: 1px solid rgba(200,184,154,0.16);
+    border-radius: 4px 9px 9px 4px;
+    padding: 2.7rem 1.6rem 1.6rem 3.4rem; /* Mehr Platz links für den Rücken */
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
     
     /* 3D Verwandlung */
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+    transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
     
-    /* Schattenwurf im Regal */
-    box-shadow: 
-      5px 5px 15px rgba(0,0,0,0.7),
-      -2px 0 5px rgba(0,0,0,0.5); /* Schatten links am Rücken */
+    /* Schattenwurf im Regal + leichte Buchdeckel-Tiefe */
+    box-shadow:
+      12px 14px 24px rgba(0,0,0,0.72),
+      inset 0 0 0 1px rgba(255,255,255,0.025),
+      inset 10px 0 18px rgba(0,0,0,0.55);
   }
   
   /* Der Buchrücken (Spine) - simuliert durch ::before */
   .card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 25px; /* Breite des Rückens */
-    background-color: var(--book-spine);
-    border-right: 1px solid rgba(200,184,154,0.15); /* Goldene Linie am Falz */
-    border-radius: 2px 0 0 2px;
-    box-shadow: inset -3px 0 5px rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 34px; /* Breite des Rückens */
+    background:
+      linear-gradient(90deg, #050505 0%, #16110f 45%, #050505 100%);
+    border-right: 1px solid rgba(200,184,154,0.22); /* Goldene Linie am Falz */
+    border-radius: 4px 0 0 4px;
+    box-shadow:
+      inset -8px 0 12px rgba(0,0,0,0.75),
+      inset 3px 0 4px rgba(255,255,255,0.04);
+    z-index: 0;
+  }
+
+  /* Helle Papierkante rechts - macht aus der Karte optisch ein Buch */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: -6px;
+    bottom: 8px;
+    width: 12px;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(230,220,200,0.18) 0px,
+        rgba(230,220,200,0.18) 1px,
+        rgba(70,60,48,0.12) 2px,
+        rgba(70,60,48,0.12) 4px
+      );
+    border-radius: 0 8px 8px 0;
+    box-shadow: inset 4px 0 5px rgba(0,0,0,0.45);
+    z-index: 0;
   }
 
   /* Hover-Effekt: Buch zieht sich vor und öffnet sich leicht */
   .card:hover { 
-    /* Nach vorne kommen, leicht nach rechts kippen (öffnen) und nach links drehen */
-    transform: translateZ(50px) rotateY(-10deg) rotateX(2deg);
-    box-shadow: 
-      25px 15px 35px rgba(0,0,0,0.8),
-      0 0 15px rgba(200,184,154,0.05); /* Subtiler Glow */
-    border-color: rgba(200,184,154,0.1);
+    transform: translateY(-8px) translateZ(60px) rotateY(-8deg);
+    box-shadow:
+      28px 24px 42px rgba(0,0,0,0.88),
+      0 0 22px rgba(200,184,154,0.08),
+      inset 0 0 0 1px rgba(255,255,255,0.035);
+    border-color: rgba(200,184,154,0.28);
   }
 
   /* Buch-Inhalt */
+  .card > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .card-tag {
     font-family: var(--font-display);
     font-size: 8px;
@@ -203,15 +240,20 @@
   /* Titel als Goldprägung */
   .card-title {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 400;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     line-height: 1.2;
     margin-bottom: 1rem;
     
     /* Gold-Effekt */
-    color: #e0d8c8;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.8), 0 0 2px rgba(200,184,154,0.3);
+    color: #d8c391;
+    text-shadow:
+      0 1px 0 #000,
+      0 0 6px rgba(216,195,145,0.18);
+    border-top: 1px solid rgba(200,184,154,0.24);
+    border-bottom: 1px solid rgba(200,184,154,0.18);
+    padding: 1rem 0;
     
     transform: translateZ(15px); /* Titel am stärksten abheben */
   }
@@ -300,7 +342,7 @@
   @media (max-width: 768px) {
     .section { padding: 2rem 1.2rem; }
     .card-grid { gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-    .card { padding: 2rem 1rem 1rem 2.5rem; }
+    .card { padding: 2.2rem 1.2rem 1.2rem 3rem; }
   }
     
   @media (max-width: 480px) {
