@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archiv | Stanley J. Vaughn</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #000000;
+    --off-black: #0a0a0a;
+    --card-bg: #111111;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.22);
+    --text-primary: #f0ede8;
+    --text-muted: #888880;
+    --accent: #c8b89a;
+    --accent-dim: rgba(200,184,154,0.15);
+    --font-display: 'Cinzel', serif;
+    --font-body: 'EB Garamond', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+  }
+  nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+  nav .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav .nav-links a:hover { color: var(--text-primary); }
+  nav .nav-logo {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 140px 2.5rem 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(200,184,154,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-overline {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .hero-rule {
+    width: 60px; height: 1px;
+    background: var(--accent);
+    margin: 1.5rem auto;
+    opacity: 0.5;
+  }
+  .hero p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── Section ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Card Grid ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--off-black);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: transparent;
+    transition: background 0.25s;
+  }
+  .card:hover { background: #141414; }
+  .card:hover::before { background: var(--accent); }
+
+  .card-tag {
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+  .card-meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+    flex: 1;
+  }
+  .card-btn {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 1px solid var(--border-hover);
+    padding: 9px 18px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    align-self: flex-start;
+    cursor: pointer;
+    background: none;
+  }
+  .card-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Fragment badge */
+  .badge-fragment {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(200,184,154,0.3);
+    padding: 3px 8px;
+    align-self: flex-start;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    max-width: 1100px; margin: 0 auto 0;
+    padding: 0 2.5rem;
+  }
+  .divider hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1rem 0 3rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 6rem;
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 1rem; }
+  footer a:hover { color: var(--text-primary); }
+
+  /* ── Fade-in animation ── */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1.2rem; }
+    .hero { padding: 110px 1.2rem 60px; }
+    .section { padding: 2rem 1.2rem; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="https://s-j-vaughn-2.jimdosite.com/">Home</a></li>
+    <li><a href="https://s-j-vaughn-2.jimdosite.com/kontakt/">Kontakt</a></li>
+    <li><a href="https://s-j-vaughn-2.jimdosite.com/uber-mich/">Über mich</a></li>
+    <li><a href="https://s-j-vaughn-2.jimdosite.com/portfolio/">Portfolio</a></li>
+  </ul>
+  <a href="https://s-j-vaughn-2.jimdosite.com/" class="nav-logo">Stanley J. Vaughn</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-overline">Stanley J. Vaughn</span>
+  <h1>Archiv</h1>
+  <div class="hero-rule"></div>
+  <p>Kurzgeschichten, vergessene Welten und Fragmente aus dem Schatten der Schublade.</p>
+</div>
+
+<!-- Kurzgeschichten -->
+<section class="section fade-in">
+  <div class="section-header">
+    <h2>Kurzgeschichten</h2>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <span class="card-tag">Kurzgeschichte · Science-Fiction</span>
+      <h3 class="card-title">Elysium</h3>
+      <p class="card-meta">Genre / Jahr oder kurze Notiz hier eintragen</p>
+      <a class="card-btn" href="#">Zur Geschichte</a>
+    </div>
+
+    <div class="card">
+      <span class="card-tag">Kurzgeschichte · Horror</span>
+      <h3 class="card-title">Jellydome</h3>
+      <p class="card-meta">Genre / Jahr oder kurze Notiz hier eintragen</p>
+      <a class="card-btn" href="#">Zur Geschichte</a>
+    </div>
+
+    <!-- Weitere Kurzgeschichten hier einfach kopieren -->
+    <div class="card">
+      <span class="card-tag">Kurzgeschichte · [Genre]</span>
+      <h3 class="card-title">[Titel]</h3>
+      <p class="card-meta">Genre / Jahr hier eintragen</p>
+      <a class="card-btn" href="#">Zur Geschichte</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- Fragmente & Unveröffentlichtes -->
+<section class="section fade-in">
+  <div class="section-header">
+    <h2>Fragmente &amp; Unveröffentlichtes</h2>
+  </div>
+  <div class="card-grid">
+
+    <div class="card">
+      <span class="badge-fragment">Unveröffentlicht</span>
+      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
+      <h3 class="card-title">[Titel des Fragments]</h3>
+      <p class="card-meta">Entstehungsjahr / Notiz</p>
+      <a class="card-btn" href="#">Lesen</a>
+    </div>
+
+    <div class="card">
+      <span class="badge-fragment">Fragment</span>
+      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
+      <h3 class="card-title">[Titel des Fragments]</h3>
+      <p class="card-meta">Entstehungsjahr / Notiz</p>
+      <a class="card-btn" href="#">Lesen</a>
+    </div>
+
+    <div class="card">
+      <span class="badge-fragment">Unveröffentlicht</span>
+      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
+      <h3 class="card-title">[Titel]</h3>
+      <p class="card-meta">Entstehungsjahr / Notiz</p>
+      <a class="card-btn" href="#">Lesen</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <a href="https://s-j-vaughn-2.jimdosite.com/">Home</a>
+  <a href="https://s-j-vaughn-2.jimdosite.com/kontakt/">Kontakt</a>
+  <a href="https://s-j-vaughn-2.jimdosite.com/portfolio/">Portfolio</a>
+  <br><br>
+  &copy; 2025 Stanley J. Vaughn
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
