@@ -10,10 +10,14 @@
 
   :root {
     --black: #000000;
-    --off-black: #050505; /* Leicht angepasst für mehr Kontrast */
-    --card-bg: #0b0b0b;   /* Eigenen Hintergrundwert für die Karten definiert */
+    /* Ein sehr dunkles Braun für das 'Regal' */
+    --regal-bg: #050403; 
+    /* Ein dunkles Anthrazit/Leder für den Bucheinband */
+    --book-cover: #121212; 
+    /* Ein noch dunklerer Ton für den Buchrücken */
+    --book-spine: #0a0a0a;
+    
     --border: rgba(255,255,255,0.06);
-    --border-hover: rgba(255,255,255,0.18);
     --text-primary: #f0ede8;
     --text-muted: #888880;
     --accent: #c8b89a;
@@ -25,36 +29,24 @@
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--black);
+    background-color: var(--regal-bg);
     color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 17px;
     line-height: 1.6;
     min-height: 100vh;
     position: relative;
+    /* Perspektive für die 3D-Drehung der Bücher */
+    perspective: 1500px; 
     
-    /* 1. Subtiler, fixierter Lichtkegel im Hintergrund */
-    background-image: 
-      radial-gradient(circle at 50% 20%, rgba(200, 184, 154, 0.03) 0%, transparent 60%),
-      radial-gradient(circle at 20% 70%, rgba(200, 184, 154, 0.01) 0%, transparent 40%);
-    background-attachment: fixed;
-  }
-
-  /* 2. Edle Papier-Struktur im Hintergrund via SVG-Noise */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.12;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    /* Hintergrund: Subtile Holzmaserung für das Regal */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.15' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
   }
 
   /* ── Nav ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0,0,0,0.95);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
@@ -87,13 +79,6 @@
     padding: 140px 2.5rem 80px;
     text-align: center;
     position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,184,154,0.06) 0%, transparent 70%);
-    pointer-events: none;
   }
   .hero-overline {
     font-family: var(--font-display);
@@ -128,13 +113,13 @@
 
   /* ── Section ── */
   .section {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 3rem 2.5rem;
   }
   .section-header {
     display: flex; align-items: center; gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4rem;
   }
   .section-header h2 {
     font-family: var(--font-display);
@@ -151,149 +136,175 @@
     background: var(--border);
   }
 
-  /* ── Card Grid (Aufgebrochen für mehr Räumlichkeit) ── */
+  /* ── Card Grid (Bücherregal) ── */
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem; /* Abstand zwischen den Karten statt 1px-Gitter */
-    background: transparent;
-    border: none;
+    /* Hochformat für Bücher */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    gap: 3rem; 
+    padding-bottom: 3rem;
   }
 
+  /* ── Das Buch (Card) ── */
   .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    padding: 2rem 1.75rem;
+    background-color: var(--book-cover);
+    /* Hochformat Proportionen */
+    aspect-ratio: 3 / 4; 
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 2px 5px 5px 2px; /* Leicht abgerundet vorne */
+    padding: 2.5rem 1.5rem 1.5rem 3rem; /* Mehr Platz links für den Rücken */
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
     position: relative;
-    overflow: hidden;
-    /* Weicher Übergang für das Schweben und den Schatten */
-    transition: background 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    
+    /* 3D Verwandlung */
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+    
+    /* Schattenwurf im Regal */
+    box-shadow: 
+      5px 5px 15px rgba(0,0,0,0.7),
+      -2px 0 5px rgba(0,0,0,0.5); /* Schatten links am Rücken */
   }
+  
+  /* Der Buchrücken (Spine) - simuliert durch ::before */
   .card::before {
     content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 1px;
-    background: transparent;
-    transition: background 0.25s;
-  }
-  
-  /* Hover-Effekt: Karte hebt sich leicht an und glüht dezent */
-  .card:hover { 
-    background: #101010; 
-    border-color: rgba(200, 184, 154, 0.25);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(200, 184, 154, 0.03);
-  }
-  .card:hover::before { background: var(--accent); }
-
-  .card-tag {
-    font-family: var(--font-display);
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .card-title {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    color: var(--text-primary);
-    line-height: 1.35;
-  }
-  .card-meta {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-style: italic;
-    flex: 1;
-  }
-  
-  /* ── Elegantes Füllen des Buttons von unten nach oben ── */
-  .card-btn {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-primary);
-    text-decoration: none;
-    border: 1px solid var(--border-hover);
-    padding: 9px 18px;
-    align-self: flex-start;
-    cursor: pointer;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s, border-color 0.3s;
-  }
-  .card-btn::after {
-    content: '';
     position: absolute;
-    bottom: 0; left: 0; right: 0; height: 0;
-    background: var(--accent-dim);
-    z-index: -1;
-    transition: height 0.25s ease-out;
-  }
-  .card-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .card-btn:hover::after {
-    height: 100%;
+    top: 0; left: 0; bottom: 0;
+    width: 25px; /* Breite des Rückens */
+    background-color: var(--book-spine);
+    border-right: 1px solid rgba(200,184,154,0.15); /* Goldene Linie am Falz */
+    border-radius: 2px 0 0 2px;
+    box-shadow: inset -3px 0 5px rgba(0,0,0,0.5);
   }
 
-  /* Fragment badge */
-  .badge-fragment {
-    display: inline-block;
+  /* Hover-Effekt: Buch zieht sich vor und öffnet sich leicht */
+  .card:hover { 
+    /* Nach vorne kommen, leicht nach rechts kippen (öffnen) und nach links drehen */
+    transform: translateZ(50px) rotateY(-10deg) rotateX(2deg);
+    box-shadow: 
+      25px 15px 35px rgba(0,0,0,0.8),
+      0 0 15px rgba(200,184,154,0.05); /* Subtiler Glow */
+    border-color: rgba(200,184,154,0.1);
+  }
+
+  /* Buch-Inhalt */
+  .card-tag {
     font-family: var(--font-display);
     font-size: 8px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    transform: translateZ(10px); /* Text leicht abheben */
+  }
+  
+  /* Titel als Goldprägung */
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    
+    /* Gold-Effekt */
+    color: #e0d8c8;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.8), 0 0 2px rgba(200,184,154,0.3);
+    
+    transform: translateZ(15px); /* Titel am stärksten abheben */
+  }
+  
+  .card-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: auto; /* Drückt den Button nach unten */
+    transform: translateZ(5px);
+  }
+  
+  /* Der Button als "Lesezeichen" oder Plakette */
+  .card-btn {
+    display: block;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--accent);
-    border: 1px solid rgba(200,184,154,0.3);
-    padding: 3px 8px;
-    align-self: flex-start;
+    text-decoration: none;
+    
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(200,184,154,0.2);
+    
+    transition: all 0.3s;
+    transform: translateZ(10px);
+    margin-top: 1.5rem;
+  }
+  
+  .card-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    box-shadow: 0 0 10px rgba(200,184,154,0.1);
+  }
+
+  /* Fragment badge - Oben rechts wie eine Plakette */
+  .badge-fragment {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-family: var(--font-display);
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #a0a090; /* Silberner Ton */
+    border: 1px solid rgba(160,160,144,0.2);
+    padding: 3px 6px;
+    background: rgba(0,0,0,0.2);
+    transform: translateZ(5px);
   }
 
   /* ── Divider ── */
   .divider {
-    max-width: 1100px; margin: 0 auto 0;
+    max-width: 1200px; margin: 0 auto;
     padding: 0 2.5rem;
   }
   .divider hr {
     border: none;
     border-top: 1px solid var(--border);
-    margin: 1rem 0 3rem;
+    margin: 2rem 0 4rem;
   }
 
   /* ── Footer ── */
   footer {
     margin-top: 6rem;
     border-top: 1px solid var(--border);
-    padding: 2rem 2.5rem;
+    padding: 3rem 2.5rem;
     text-align: center;
     font-family: var(--font-display);
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--text-muted);
+    background: rgba(0,0,0,0.2);
   }
-  footer a { color: var(--text-muted); text-decoration: none; margin: 0 1rem; }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 1rem; transition: color 0.2s; }
   footer a:hover { color: var(--text-primary); }
 
   /* ── Fade-in animation ── */
-  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: none; }
 
-  @media (max-width: 600px) {
-    nav { padding: 0 1.2rem; }
-    .hero { padding: 110px 1.2rem 60px; }
+  @media (max-width: 768px) {
     .section { padding: 2rem 1.2rem; }
-    .card-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .card-grid { gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .card { padding: 2rem 1rem 1rem 2.5rem; }
+  }
+    
+  @media (max-width: 480px) {
+    .card-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
   }
 </style>
 </head>
@@ -316,6 +327,7 @@
   <p>Kurzgeschichten, vergessene Welten und Fragmente aus dem Schatten.</p>
 </div>
 
+<!-- Kurzgeschichten -->
 <section class="section fade-in">
   <div class="section-header">
     <h2>Kurzgeschichten</h2>
@@ -323,24 +335,24 @@
   <div class="card-grid">
 
     <div class="card">
-      <span class="card-tag">Kurzgeschichte · Noir</span>
+      <span class="card-tag">Noir</span>
       <h3 class="card-title">Elysium</h3>
       <p class="card-meta">Historic-Noir</p>
-      <a class="card-btn" href="https://tasmus2406.github.io/Leseproben/Elysium_Leseprobe.html">Zur Geschichte</a>
+      <a class="card-btn" href="https://tasmus2406.github.io/Leseproben/Elysium_Leseprobe.html">Lesen</a>
     </div>
 
     <div class="card">
-      <span class="card-tag">Kurzgeschichte · Science Fantasy</span>
+      <span class="card-tag">Science Fantasy</span>
       <h3 class="card-title">Jellydome</h3>
       <p class="card-meta">Nyxbaum Ballade</p>
-      <a class="card-btn" href="https://tasmus2406.github.io/Leseproben/jellydome_leseprobe.html">Zur Geschichte</a>
+      <a class="card-btn" href="https://tasmus2406.github.io/Leseproben/jellydome_leseprobe.html">Lesen</a>
     </div>
 
     <div class="card">
-      <span class="card-tag">Kurzgeschichte · [Genre]</span>
+      <span class="card-tag">[Genre]</span>
       <h3 class="card-title">[Titel]</h3>
-      <p class="card-meta">Genre / Jahr hier eintragen</p>
-      <a class="card-btn" href="#">Zur Geschichte</a>
+      <p class="card-meta">Genre / Jahr</p>
+      <a class="card-btn" href="#">Lesen</a>
     </div>
 
   </div>
@@ -348,6 +360,7 @@
 
 <div class="divider"><hr></div>
 
+<!-- Fragmente & Unveröffentlichtes -->
 <section class="section fade-in">
   <div class="section-header">
     <h2>Fragmente &amp; Unveröffentlichtes</h2>
@@ -356,26 +369,26 @@
 
     <div class="card">
       <span class="badge-fragment">Unveröffentlicht</span>
-      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
-      <h3 class="card-title">[Titel des Fragments]</h3>
+      <span class="card-tag">[Genre]</span>
+      <h3 class="card-title">[Titel]</h3>
       <p class="card-meta">Entstehungsjahr / Notiz</p>
-      <a class="card-btn" href="#">Lesen</a>
+      <a class="card-btn" href="#">Öffnen</a>
     </div>
 
     <div class="card">
       <span class="badge-fragment">Fragment</span>
-      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
-      <h3 class="card-title">[Titel des Fragments]</h3>
+      <span class="card-tag">[Genre]</span>
+      <h3 class="card-title">[Titel]</h3>
       <p class="card-meta">Entstehungsjahr / Notiz</p>
-      <a class="card-btn" href="#">Lesen</a>
+      <a class="card-btn" href="#">Öffnen</a>
     </div>
 
     <div class="card">
       <span class="badge-fragment">Unveröffentlicht</span>
-      <span class="card-tag" style="margin-top:0.3rem">[Genre]</span>
+      <span class="card-tag">[Genre]</span>
       <h3 class="card-title">[Titel]</h3>
       <p class="card-meta">Entstehungsjahr / Notiz</p>
-      <a class="card-btn" href="#">Lesen</a>
+      <a class="card-btn" href="#">Öffnen</a>
     </div>
 
   </div>
@@ -390,14 +403,15 @@
 </footer>
 
 <script>
+  // Optimierter Observer für flüssigere Animation
   const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
+    entries.forEach((e) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        e.target.classList.add('visible');
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
